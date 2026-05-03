@@ -1,0 +1,29 @@
+.slick-next::before,
+.slick-prev::before {
+  content: none;
+}
+
+/* Zoom in/out transition effect */
+.slick-slide {
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.slick-active {
+  animation: zoomIn 1s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.slick-slide:not(.slick-active) {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
