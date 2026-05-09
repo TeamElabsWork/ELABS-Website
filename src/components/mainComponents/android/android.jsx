@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import './android.css';
-import androidLogo from "./images/and11.png";
-import mobileImg from "./images/and2.png";
-import kotlinImg from "./images/and3.png";
-import appImg from "./images/and4.png";
+import androidLogo from "./Images/and11.png";
+import mobileImg from "./Images/and2.png";
+import kotlinImg from "./Images/and3.png";
+import appImg from "./Images/and4.png";
 const AndroidELabs = () => {
   const canvasRef = useRef(null);
   const logoRef = useRef(null);
