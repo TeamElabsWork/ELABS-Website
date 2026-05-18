@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../mainComponents/Navbar";
 import Footer from "../mainComponents/Footer";
@@ -23,7 +24,13 @@ function Layout() {
         <Navbar />
 
         <main className="pt-24 flex-grow">
-          <Outlet />
+          <Suspense fallback={
+            <div className="h-screen flex items-center justify-center text-2xl font-bold text-gray-500">
+              Loading...
+            </div>
+          }>
+            <Outlet />
+          </Suspense>
         </main>
 
         <Footer />
