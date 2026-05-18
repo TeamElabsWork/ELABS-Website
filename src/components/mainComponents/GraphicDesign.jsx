@@ -1,316 +1,117 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import VerticalStep from "./VerticalStep";
-import Particles from "./Particles";
-import './Particles.css';
+import React from 'react';
+import './shared/DomainPage.css';
+import DomainParticles from './shared/DomainParticles';
+import useDomainScrollAnimations from './shared/useDomainScrollAnimations';
+import RotatingText from './shared/RotatingText';
 
-export default function Graphicdesign() {
-  const materialsData = useSelector((state) =>
-    state.studyMaterials.find(
-      (item) => item.domain.toLowerCase().includes("graphic")
-    )
-  );
+const GraphicDesign = () => {
+  useDomainScrollAnimations();
 
-  const themeColors=[
-    "#ff9900",
-    "#fde047",
-    "#fb923c",
-    "#0a0a0a",
+  const tools = [
+    { icon: '🖊️', name: 'Adobe Illustrator', desc: 'Industry-standard vector graphics software for creating logos, icons, illustrations, and scalable brand assets.', link: 'https://www.adobe.com/products/illustrator.html' },
+    { icon: '🖼️', name: 'Adobe Photoshop', desc: 'The gold standard for raster graphics editing — photo manipulation, digital painting, and compositing.', link: 'https://www.adobe.com/products/photoshop.html' },
+    { icon: '📱', name: 'Figma', desc: 'Cloud-based design and prototyping tool perfect for UI design, design systems, and real-time team collaboration.', link: 'https://www.figma.com' },
+    { icon: '📐', name: 'Adobe InDesign', desc: 'Professional desktop publishing tool for creating layouts for print media, magazines, and marketing materials.', link: 'https://www.adobe.com/products/indesign.html' },
+    { icon: '✨', name: 'After Effects', desc: 'Create stunning motion graphics, visual effects, and animated brand assets for video and digital media.', link: 'https://www.adobe.com/products/aftereffects.html' },
+    { icon: '🎨', name: 'Canva Pro', desc: 'Rapid design platform for creating social media content, presentations, and marketing materials at scale.', link: 'https://www.canva.com' },
   ];
-  if (!materialsData){
-    return (
-      <main className="min-h-screen bg-[#0a0a0a] text-gray-200 flex items-center justify-center pt-24">
-        <div className="text-2xl text-gray-300">
-          No materials found for this course.
+
+  return (
+    <div className="domain-page">
+      <DomainParticles />
+
+      <section className="dp-hero">
+        <div className="dp-hero-content">
+          <p className="dp-hero-subtitle-line">Design what people remember using</p>
+          <h1 className="dp-hero-title">
+            <span className="dp-rotating-wrapper">
+              <RotatingText
+                texts={['Illustrator', 'Photoshop', 'Figma', 'After Effects', 'InDesign']}
+                mainClassName="px-3 py-1 bg-orange-500 text-white overflow-hidden rounded-xl"
+                staggerFrom="last"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-120%' }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden pb-0.5"
+                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+                rotationInterval={2000}
+                splitBy="characters"
+                auto
+                loop
+              />
+            </span>
+            {' '}at Elabs
+          </h1>
+          <p className="dp-hero-desc">
+            Shape how the world sees ideas. Master visual communication, brand design, and motion graphics — the creative force behind every product people fall in love with.
+          </p>
+          <div className="dp-hero-ctas">
+            <button className="dp-btn dp-btn-primary" onClick={() => document.getElementById('gd-what')?.scrollIntoView({ behavior: 'smooth' })}>
+              Explore Now
+            </button>
+            <button className="dp-btn dp-btn-secondary">Join Design @ Elabs</button>
+          </div>
         </div>
-      </main>
-    );
-  }
+        <div className="dp-hero-fade" />
+      </section>
 
-  const { domain, img } = materialsData;
-    useEffect(() => {
-        // Smooth scrolling logic
-        const linkHandler = (e) => {
-            e.preventDefault();
-            const target = document.querySelector(e.currentTarget.getAttribute("href"));
-            target?.scrollIntoView({ behavior: "smooth" });
-        };
-        
-        const links = document.querySelectorAll(".LocalNavBox a");
-        links.forEach((link) => link.addEventListener("click", linkHandler));
-
-        // Fade-in animation logic
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("opacity-100", "translate-y-0");
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-        const fadeSections = document.querySelectorAll(".fade-section");
-        fadeSections.forEach((el) => {
-            el.classList.remove("opacity-100", "translate-y-0"); // Reset for new page
-            observer.observe(el);
-        });
-
-        // Cleanup
-        return () => {
-            links.forEach((link) => link.removeEventListener("click", linkHandler));
-            fadeSections.forEach((el) => observer.unobserve(el));
-        };
-    }, []);
-
-    return (
-        <main className="min-h-screen bg-[#0a0a0a] text-gray-200 font-sans overflow-x-hidden relative isolate scroll-smooth">
-            
-            {/* 🚨 PARTICLES BACKGROUND LAYER - MAXIMUM DENSITY SETTINGS */}
-            <div className="fixed inset-0 w-full h-full opacity-80 pointer-events-none z-[0]">
-                <Particles
-                    particleCount={3000} // Increased to 3000 for maximum density
-                    particleSpread={15}
-                    speed={0.15}
-                    particleColors={themeColors}
-                    alphaParticles={true}
-                    particleBaseSize={500}
-                    cameraDistance={30}
-                />
+      <div className="dp-section-bg">
+        <section id="gd-what" className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Graphic Design — Visual Language</h2>
+          <p className="dp-section-subtitle scroll-anim">Communicating ideas through typography, color, and form</p>
+          <div className="dp-what-grid">
+            <div className="dp-what-text scroll-anim slide-left">
+              <h3>Design That Moves People</h3>
+              <p><strong>Graphic Design</strong> is the craft of visual communication — using typography, imagery, color, and layout to convey information and evoke emotion in audiences.</p>
+              <p><strong>Brand identity, marketing collateral, social media visuals, and motion graphics</strong> are all products of graphic design — shaping how organizations are perceived and remembered.</p>
+              <p>At Elabs, our graphic designers create the visual identity for events, social media campaigns, and member-facing materials, making every initiative look world-class.</p>
             </div>
-
-            {/* 🔶 Orange Glowing Background (Z-index 1 - Below particles) */}
-            <div className="absolute inset-0 z-[1] pointer-events-none">
-                <div className="absolute top-24 left-16 w-96 h-96 bg-orange-600/20 rounded-full blur-[120px] animate-pulse"></div>
-                <div className="absolute bottom-20 right-16 w-[30rem] h-[30rem] bg-orange-500/20 rounded-full blur-[150px] animate-pulse"></div>
+            <div className="dp-feature-cards scroll-anim slide-right">
+              <div className="dp-feature-card"><strong>Typography & Color Theory</strong>Master the principles that govern how text and color work together to guide attention and create mood.</div>
+              <div className="dp-feature-card"><strong>Brand Identity Design</strong>Create cohesive logos, style guides, and brand systems that communicate values at a glance.</div>
+              <div className="dp-feature-card"><strong>Print & Digital Layout</strong>Design publications, posters, and digital content using professional layout principles.</div>
+              <div className="dp-feature-card"><strong>Motion Graphics</strong>Animate logos, create title sequences, and bring static designs to life with movement.</div>
             </div>
+          </div>
+        </section>
+      </div>
 
-            {/* Wrap all content in a div with z-index 10 to layer it over the backgrounds */}
-            <div className="relative z-10"> 
-                {/* 1️⃣ Intro Section */}
-                <section
-                    id="intro"
-                    className="fade-section opacity-0 translate-y-10 transition-all duration-1000 flex flex-col items-center justify-center min-h-screen px-6 pt-24 text-center"
-                >
-                    <img
-                        src={img} 
-                        alt={domain}
-                        className="w-40 h-40 rounded-2xl border-4 border-orange-500/30 shadow-[0_0_40px_rgba(255,115,0,0.3)] hover:scale-105 transition-transform duration-500 mb-8"
-                    />
-                    <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-300 drop-shadow-[0_0_8px_rgba(255,115,0,0.5)]">
-                        {domain}
-                    </h1>
-                    <p className="max-w-3xl mx-auto text-gray-100 mt-6 text-xl leading-relaxed tracking-wide font-medium">
-                        Graphic Design is the universal language of visuals. It is where creativity and purpose meet, transforming raw ideas into compelling visual narratives. Master the art of strategic storytelling—blending imagination with technical skill to design for every platform, from print to social media.
-                    </p>
-                </section>
-                
+      <div className="dp-section-bg">
+        <section className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Tools & Technologies We Use</h2>
+          <p className="dp-section-subtitle scroll-anim">The Adobe Creative Suite and modern design tools</p>
+          <div className="dp-tools-grid">
+            {tools.map((tool, i) => (
+              <div className="dp-tool-card scroll-anim flip-in" key={i}>
+                <span className="dp-tool-icon">{tool.icon}</span>
+                <h4>{tool.name}</h4>
+                <p>{tool.desc}</p>
+                <a href={tool.link} target="_blank" rel="noreferrer" className="dp-tool-link">Learn More</a>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
 
-                {/* 2️⃣ What It Offers - STANDARD GRID LAYOUT */}
-                <section
-                    id="offers"
-                    className="fade-section opacity-0 translate-y-10 transition-all duration-1000 py-28 px-8 text-center"
-                >
-                    <h2 className="text-4xl font-bold text-orange-400 mb-12 tracking-wide drop-shadow-[0_0_8px_rgba(255,115,0,0.5)]">
-                        What Graphic Design Offers
-                    </h2>
-                    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[
-                            {
-                                title: "Visual Storytelling",
-                                desc: "Connect emotionally and inspire action. Craft compelling illustrations and visuals that convey clear messages without needing text.",
-                            },
-                            {
-                                title: "Creative Branding",
-                                desc: "Define a unique identity. Design impactful logos, brand guides, and marketing assets that distinguish and elevate any brand.",
-                            },
-                            {
-                                title: "Digital Aesthetics",
-                                desc: "Master the digital canvas. Create optimized designs for web interfaces, social media campaigns, and interactive digital experiences.",
-                            },
-                            {
-                                title: "Typography & Layout",
-                                desc: "The art of the word. Develop expertise in selecting typefaces and arranging layouts for maximum readability and visual impact in all formats.",
-                            },
-                            {
-                                title: "Print & Production",
-                                desc: "Designs in the physical world. Learn technical requirements for print, including color, bleed, and production workflows for magazines and packaging.",
-                            },
-                            {
-                                title: "Motion Graphics Basics",
-                                desc: "Adding dynamic movement. Understand simple animation and motion graphics to create engaging logos and video intros that capture modern audiences.",
-                            },
-                        ].map((card, i) => (
-                            <div
-                                key={i}
-                                className={`fade-section opacity-0 translate-y-10 transition-all duration-1000 delay-${i * 150} bg-[#151515]/90 border border-orange-500/20 p-8 rounded-2xl text-left hover:-translate-y-3 hover:shadow-[0_0_40px_rgba(255,115,0,0.4)]`}
-                            >
-                                <h3 className="text-2xl font-semibold text-orange-400 mb-3 drop-shadow-[0_0_6px_rgba(255,115,0,0.4)]">
-                                    {card.title}
-                                </h3>
-                                <p className="text-gray-200 leading-relaxed tracking-wide">
-                                    {card.desc}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+      <div className="dp-section-bg">
+        <section className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Graphic Design at Elabs — Impact</h2>
+          <p className="dp-section-subtitle scroll-anim">Why design is a superpower for engineers</p>
+          <div className="dp-stats-grid">
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">50+</div><h4>Designs Created</h4><p>Posters, banners, social posts, and brand assets designed for Elabs</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">3×</div><h4>Higher Impact</h4><p>Brands with strong visual identity attract 3× more engagement</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">🏆</div><h4>Award Worthy</h4><p>Student design projects submitted to national design competitions</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">∞</div><h4>Creativity</h4><p>No ceiling on what you can create when art meets engineering mindset</p></div>
+          </div>
+          <div className="dp-impact-box scroll-anim zoom-in">
+            <h3>The Real Impact</h3>
+            <p>Great engineering built ugly deserves better. At Elabs, our graphic designers bridge the gap between technical achievement and beautiful presentation. They make every project look like it belongs on a world stage — from event branding to pitch decks to social media campaigns. Design thinking is a skill that makes every other discipline better.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
 
-                {/* 3️⃣ Tools Section - STANDARD FLEX/FLOW LAYOUT */}
-                <section
-                    id="tools"
-                    className="fade-section opacity-0 translate-y-10 transition-all duration-1000 py-28 px-8 text-center"
-                >
-                    <h2 className="text-4xl font-bold text-orange-400 mb-10 tracking-wide drop-shadow-[0_0_8px_rgba(255,115,0,0.5)]">
-                        Tools & Software We Master
-                    </h2>
-                    <p className="max-w-3xl mx-auto text-gray-100 mb-12 text-xl leading-relaxed tracking-wide font-medium">
-                        Our focus is on industry-standard tools—the backbone of professional design. We cover everything from pixel-perfect image manipulation and scalable vector creation to rapid prototyping.
-                    </p>
-
-                    <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
-                        {[
-                            {
-                                name: "Adobe Photoshop",
-                                url: "https://www.adobe.com/products/photoshop.html",
-                                img: "https://upload.wikimedia.org/wikipedia/commons/2/20/Photoshop_CC_icon.png",
-                            },
-                            {
-                                name: "Canva",
-                                url: "https://www.canva.com/",
-                                img: "/Images/Logo/canva-icon.webp",
-                            },
-                            {
-                                name: "Adobe Illustrator",
-                                url: "https://www.adobe.com/products/illustrator.html",
-                                img: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg",
-                            },
-                            {
-                                name: "Adobe InDesign",
-                                url: "https://www.adobe.com/products/indesign.html",
-                                img: "https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg",
-                            },
-                            {
-                                name: "Figma",
-                                url: "https://www.figma.com/",
-                                img: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",
-                            },
-                        ].map((tool, i) => (
-                            <a
-                                key={i}
-                                href={tool.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`fade-section opacity-0 translate-y-10 transition-all duration-1000 delay-${i * 150} group relative w-48 h-48 bg-[#111]/90 border border-orange-500/30 rounded-2xl flex flex-col items-center justify-center hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(255,115,0,0.45)]`}
-                            >
-                                <img
-                                    src={tool.img}
-                                    alt={tool.name}
-                                    className="w-20 h-20 mb-3 transition-transform duration-500 group-hover:scale-110"
-                                />
-                                <h3 className="text-lg font-bold text-orange-400 tracking-wide">
-                                    {tool.name}
-                                </h3>
-                                <p className="text-sm text-gray-300 group-hover:text-gray-100">
-                                    Click to Explore →
-                                </p>
-                            </a>
-                        ))}
-                    </div>
-                </section>
-
-                {/* 4️⃣ Learning Curve */}
-                <section
-                    id="learning"
-                    className="fade-section opacity-0 translate-y-10 transition-all duration-1000 py-28 px-8 text-center bg-[#0f0f0f]/80"
-                >
-                    <h2 className="text-4xl font-bold text-orange-400 mb-10 tracking-wide drop-shadow-[0_0_8px_rgba(255,115,0,0.5)]">
-                        Learning Curve: Beginner → Advanced
-                    </h2>
-                    <div className="max-w-3xl mx-auto text-left">
-                        {[
-                            {
-                                title: "Foundation & Theory (Weeks 1-4)",
-                                desc: "Start with basic design principles, color theory, and composition. Understand the psychological impact of visuals and design critique.",
-                            },
-                            {
-                                title: "Tool Mastery & Core Skills (Weeks 5-12)",
-                                desc: "Master typography, layout design, and core software like Photoshop and Illustrator. Focus on raster vs. vector graphics.",
-                            },
-                            {
-                                title: "Practical Projects & Branding (Weeks 13-20)",
-                                desc: "Work on real-world projects: brand identity, posters, and UI/UX mockups. Learn to integrate client feedback and iterative design.",
-                            },
-                            {
-                                title: "Advanced Workflow & Portfolio (Weeks 21-24)",
-                                desc: "Advance to complex design systems, motion graphics basics, and creating a professional, job-ready portfolio.",
-                            },
-                        ].map((step, i, arr) => (
-                            <VerticalStep
-                                key={i}
-                                number={i + 1}
-                                title={step.title}
-                                description={step.desc}
-                                isLast={i === arr.length - 1}
-                            />
-                        ))}
-                    </div>
-                </section>
-
-                {/* 5️⃣ Why It Matters */}
-                <section
-                    id="matters"
-                    className="fade-section opacity-0 translate-y-10 transition-all duration-1000 py-28 px-8 text-center bg-[#0f0f0f]/80"
-                >
-                    <h2 className="text-4xl font-bold text-orange-400 mb-8 tracking-wide drop-shadow-[0_0_8px_rgba(255,115,0,0.5)]">
-                        Why Graphic Design Matters
-                    </h2>
-                    <p className="max-w-3xl mx-auto text-gray-100 text-2xl leading-relaxed tracking-wide font-medium">
-                        Design is not decoration—it's a critical engine for growth. It transforms confusing data into clear, actionable information, builds instant trust through compelling branding, and connects people with ideas that drive action.
-                    </p>
-                    <p className="max-w-3xl mx-auto text-gray-200 mt-6 text-lg leading-relaxed tracking-wide font-medium">
-                        In a visually saturated world, the ability to create strategic, high-quality content is an indispensable skill. Professional graphic designers are key players in any successful organization.
-                    </p>
-                </section>
-
-                {/* 6️⃣ E-Labs Section */}
-                <section
-                    id="elabs"
-                    className="fade-section opacity-0 translate-y-10 transition-all duration-1000 py-28 px-8 text-center"
-                >
-                    <h2 className="text-4xl font-bold text-orange-400 mb-8 tracking-wide drop-shadow-[0_0_8px_rgba(255,115,0,0.5)]">
-                        Graphic Design at E-Labs
-                    </h2>
-                    <div className="max-w-3xl mx-auto text-left">
-                        {[
-                            {
-                                title: "Real-World Impact",
-                                desc: "Design with purpose: creating event posters, professional UI/UX layouts, and promotional visuals for E-Labs.",
-                            },
-                            {
-                                title: "Brand Shaping",
-                                desc: "Actively shaping the visual identity of E-Labs through innovative projects and a consistent creative vision.",
-                            },
-                            {
-                                title: "Collaborative Teams",
-                                desc: "Collaborate closely with our creative and web development teams on high-impact, real-world projects.",
-                            },
-                            {
-                                title: "Industry Workflow",
-                                desc: "Learning and implementing industry-standard design workflows, feedback loops, and project management techniques.",
-                            },
-                        ].map((step, i, arr) => (
-                            <VerticalStep
-                                key={i}
-                                number={i + 1}
-                                title={step.title}
-                                description={step.desc}
-                                isLast={i === arr.length - 1}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </div>
-        </main>
-    );
-}
+export default GraphicDesign;

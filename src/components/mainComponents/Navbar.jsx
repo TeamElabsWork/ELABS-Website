@@ -12,13 +12,15 @@ import ImageButton from "../subComponents/ImageButton";
 
 const navLinks = [
   { href: "#home", label: "Home", route: "/" },
+  { href: "#initiativesPage", label: "Initiatives", route: "/#initiativesPage" },
   { href: "#aboutPage", label: "About", route: "/about" },
   { href: "#domain", label: "Domains", route: "/domain" },
   { href: "#eventPage", label: "Events", route: "/events" },
+  { href: "#achievementsPage", label: "Achievements", route: "/achievements" },
   { href: "#membersPage", label: "Members", route: "/members" },
   { href: "#galleryPage", label: "Gallery", route: "/gallery" },
-  { href: "#feedbackPage", label: "Feedback", route: "/feedback" },
-  { href: "#recruitmentPage", label: "Recruitment", route: "/recruitment" },
+  // { href: "#feedbackPage", label: "Feedback", route: "/feedback" },
+  // { href: "#recruitmentPage", label: "Recruitment", route: "/recruitment" },
 ];
 
 const Navbar = () => {

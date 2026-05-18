@@ -1,340 +1,120 @@
-import React, { useEffect, useRef } from 'react';
-import './android.css';
-import androidLogo from "./Images/and11.png";
-import mobileImg from "./Images/and2.png";
-import kotlinImg from "./Images/and3.png";
-import appImg from "./Images/and4.png";
-const AndroidELabs = () => {
-  const canvasRef = useRef(null);
-  const logoRef = useRef(null);
-  const openInfo = (url) => {
-    window.open(url, "_blank");
-  };
-  useEffect(() => {
-    // --- 1. Page Load Animation Logic ---
-    document.body.classList.add('java-page-loading');
-     
-    // Trigger animation shortly after mount
-    const timer = setTimeout(() => {
-      document.body.classList.add('java-page-loaded');
-    }, 100);
-    // --- 2. 3D Logo Tilt Logic ---
-    const logo = logoRef.current;
-    const handleLogoMove = (e) => {
-      if (!logo) return;
-      const x = (window.innerWidth / 2 - e.pageX) / 25;
-      const y = (window.innerHeight / 2 - e.pageY) / 25;
-      logo.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.05)`;
-    };
+import React from 'react';
+import '../shared/DomainPage.css';
+import DomainParticles from '../shared/DomainParticles';
+import useDomainScrollAnimations from '../shared/useDomainScrollAnimations';
+import RotatingText from '../shared/RotatingText';
 
-    const handleLogoLeave = () => {
-      if (!logo) return;
-      logo.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
-    };
+const Android = () => {
+  useDomainScrollAnimations();
 
-    if (logo) {
-      logo.addEventListener("mousemove", handleLogoMove);
-      logo.addEventListener("mouseleave", handleLogoLeave);
-    }
-
-    // --- 3. Intersection Observer (Scroll Animations) ---
-    const animatedSections = document.querySelectorAll(
-      ".fade-up, .fade-left, .fade-right, .fade-down, .zoom-in, .slide-left, .slide-up, .tools-grid"
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            if (entry.target.classList.contains("tools-grid")) {
-              entry.target.querySelectorAll(".tool-card").forEach((card, i) => {
-                setTimeout(() => card.classList.add("visible"), i * 120);
-              });
-            }
-          } else {
-            entry.target.classList.remove("visible");
-            entry.target.querySelectorAll(".tool-card").forEach((card) =>
-              card.classList.remove("visible")
-            );
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    animatedSections.forEach((section) => observer.observe(section));
-
-    // --- 4. Particle Canvas Logic ---
-    const canvas = canvasRef.current;
-    let animationFrameId;
-    let resizeHandler;
-
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      
-      const getDimensions = () => ({
-        width: document.documentElement.scrollWidth,
-        height: document.documentElement.scrollHeight
-      });
-
-      let { width, height } = getDimensions();
-      const NUM_PARTICLES = 250;
-      // Changed Glow color to Green-ish for Android vibe, or keep Orange if preferred
-      const GLOW_COLOR = "rgba(61, 220, 132, 0.9)"; 
-      const PARTICLE_COLOR = "rgba(61, 220, 132, 0.7)";
-
-      class Particle {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * width;
-          this.y = Math.random() * height;
-          this.radius = Math.random() * 1.2 + 0.8;
-          this.vx = (Math.random() - 0.5) * 0.2;
-          this.vy = (Math.random() - 0.5) * 0.2;
-        }
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0 || this.x > width) this.vx *= -1;
-          if (this.y < 0 || this.y > height) this.vy *= -1;
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.shadowBlur = this.radius * 15;
-          ctx.shadowColor = GLOW_COLOR;
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-          ctx.fillStyle = PARTICLE_COLOR;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-      }
-
-      let particles = [];
-      const initParticles = () => {
-        canvas.width = width;
-        canvas.height = height;
-        particles = Array.from({ length: NUM_PARTICLES }, () => new Particle());
-      };
-
-      const animateParticles = () => {
-        animationFrameId = requestAnimationFrame(animateParticles);
-        ctx.fillStyle = "#0d0a10";
-        ctx.fillRect(0, 0, width, height);
-        particles.forEach((p) => {
-          p.update();
-          p.draw();
-        });
-      };
-
-      resizeHandler = () => {
-        const dims = getDimensions();
-        width = dims.width;
-        height = dims.height;
-        canvas.width = width;
-        canvas.height = height;
-        initParticles();
-      };
-
-      window.addEventListener("resize", resizeHandler);
-      initParticles();
-      animateParticles();
-    }
-
-    // --- Cleanup ---
-    return () => {
-      clearTimeout(timer);
-      document.body.classList.remove('java-page-loading', 'java-page-loaded');
-
-      if (logo) {
-        logo.removeEventListener("mousemove", handleLogoMove);
-        logo.removeEventListener("mouseleave", handleLogoLeave);
-      }
-      
-      observer.disconnect();
-
-      if (resizeHandler) window.removeEventListener("resize", resizeHandler);
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+  const tools = [
+    { icon: '🤖', name: 'Android Studio', desc: 'Official IDE for Android development — feature-rich with an emulator, debugger, and profiler built-in.', link: 'https://developer.android.com/studio' },
+    { icon: '🎯', name: 'Kotlin', desc: 'Modern, concise, and safe programming language officially recommended by Google for Android development.', link: 'https://kotlinlang.org' },
+    { icon: '🔥', name: 'Firebase', desc: "Google's mobile backend platform — real-time database, authentication, cloud storage, and analytics.", link: 'https://firebase.google.com' },
+    { icon: '🖌️', name: 'Jetpack Compose', desc: "Android's modern declarative UI toolkit for building native interfaces with less code and Kotlin.", link: 'https://developer.android.com/compose' },
+    { icon: '🔌', name: 'Retrofit', desc: 'Type-safe HTTP client for Android — makes consuming REST APIs clean, easy, and maintainable.', link: 'https://square.github.io/retrofit/' },
+    { icon: '🏗️', name: 'Gradle', desc: 'Flexible build automation system for Android — manages dependencies and automates the build pipeline.', link: 'https://gradle.org' },
+  ];
 
   return (
-    <>
-      <canvas id="particleCanvas" ref={canvasRef}></canvas>
-      
-      {/* Hero Section */}
-      <section className="front">
-        {/* <div className="javalogo">
-          <img 
-            src={androidLogo}
-            id="javalogoo"
-            alt="Android Logo"
-            ref={logoRef}
-          />
-        </div> */}
-        <div className="front-box">
-          <h1 className="hero-title">
-             Android Dev at E Labs
+    <div className="domain-page">
+      <DomainParticles />
+
+      {/* Hero */}
+      <section className="dp-hero">
+        <div className="dp-hero-content">
+          <p className="dp-hero-subtitle-line">Build native apps powered by</p>
+          <h1 className="dp-hero-title">
+            <span className="dp-rotating-wrapper">
+              <RotatingText
+                texts={['Kotlin', 'Firebase', 'Jetpack', 'Android SDK', 'Compose']}
+                mainClassName="px-3 py-1 bg-orange-500 text-white overflow-hidden rounded-xl"
+                staggerFrom="last"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-120%' }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden pb-0.5"
+                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+                rotationInterval={2000}
+                splitBy="characters"
+                auto
+                loop
+              />
+            </span>
+            {' '}at Elabs
           </h1>
-          <p>
-              Welcome to the <span>Android domain</span> of <span>E Labs</span>!  
-              Here, we craft the future of <span>mobile technology</span> using <span>Kotlin</span> and <span>Java</span>.  
-              <span>E Labs</span> provides an immersive environment to master <span>native app development</span>,  
-              from designing intuitive <span>UIs</span> to integrating complex <span>backend APIs</span>.
+          <p className="dp-hero-desc">
+            Create powerful, beautiful Android applications that run on billions of devices worldwide. From Kotlin fundamentals to deploying on the Play Store — master mobile development at Elabs.
           </p>
-          <p> 
-              At <span>E Labs</span>, we transform <span>ideas</span> into deployed <span>Play Store applications</span>,  
-              building the next generation of <span>smart mobile solutions</span>.
-          </p>
-        </div>
-      </section>  
-
-      {/* Info Section */}
-      <section className="java-info-section" id="java-info">
-        <div className="info-box fade-left">
-          <div className="info-content">
-            <h2>What is Android Dev?</h2>
-            <p>
-              <strong>Android Development</strong> is the process of creating applications for devices running the Android operating system. 
-              With over 3 billion active devices, it is the most widely used mobile OS in the world, powering phones, tablets, watches, and cars.
-            </p>
-            <h3 className="rr"><span>Core Ecosystem:</span></h3>
-            <p>
-              • Native Development (Kotlin & Java)<br />
-              • Material Design Systems<br />
-              • Jetpack Libraries<br />
-              • Google Play Services<br />
-              • Firebase Integration<br />
-              • AR & VR Mobile Experiences
-            </p>
-            <button className="more-btn" onClick={() => openInfo('https://developer.android.com/')}>Know More</button>
-          </div>
-          <div className="info-image">
-            <img src={androidLogo} alt="Android Ecosystem" />
+          <div className="dp-hero-ctas">
+            <button className="dp-btn dp-btn-primary" onClick={() => document.getElementById('android-what')?.scrollIntoView({ behavior: 'smooth' })}>
+              Explore Now
+            </button>
+            <button className="dp-btn dp-btn-secondary">
+              Join Android @ Elabs
+            </button>
           </div>
         </div>
+        <div className="dp-hero-fade" />
       </section>
 
-      {/* Tools Section */}
-      <section className="tools-section slide-up" id="java-tools">
-        <h2>Android Tech Stack</h2>
-        <div className="tools-grid">
-          <div className="tool-card">
-            <h3>Android Studio</h3>
-            <p>The official Integrated Development Environment (IDE) for Android, providing code editing, debugging, and performance tooling.</p>
+      <div className="dp-section-bg">
+        <section id="android-what" className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Android Development — Mobile First</h2>
+          <p className="dp-section-subtitle scroll-anim">Building for the world's most popular mobile platform</p>
+          <div className="dp-what-grid">
+            <div className="dp-what-text scroll-anim slide-left">
+              <h3>Powering Billions of Devices</h3>
+              <p><strong>Android</strong> powers over 3 billion active devices worldwide, making it the most widely used mobile operating system on the planet.</p>
+              <p><strong>Android development</strong> lets you create apps that run across an enormous range of devices — from budget smartphones to flagship tablets and smart TVs.</p>
+              <p>At Elabs, we build real, functional Android applications using the latest tools and best practices endorsed by Google's own engineering team.</p>
+            </div>
+            <div className="dp-feature-cards scroll-anim slide-right">
+              <div className="dp-feature-card"><strong>Kotlin Programming</strong>Write concise, expressive, and safe code with Google's recommended language for Android.</div>
+              <div className="dp-feature-card"><strong>Jetpack Compose UI</strong>Build beautiful native UIs declaratively with Android's modern toolkit.</div>
+              <div className="dp-feature-card"><strong>Firebase Integration</strong>Connect apps to real-time backends with authentication, cloud storage, and analytics.</div>
+              <div className="dp-feature-card"><strong>Play Store Deployment</strong>Package, test, and publish your app to millions of Android users worldwide.</div>
+            </div>
           </div>
-          <div className="tool-card">
-            <h3>Kotlin</h3>
-            <p>The modern, concise, and safe programming language recommended by Google for all new Android development.</p>
-          </div>
-          <div className="tool-card">
-            <h3>Jetpack Compose</h3>
-            <p>Android's modern toolkit for building native UI. It simplifies and accelerates UI development with less code.</p>
-          </div>
-          <div className="tool-card">
-            <h3>Firebase</h3>
-            <p>A comprehensive app development platform that provides backend services like databases, authentication, and analytics.</p>
-          </div>
-          <div className="tool-card">
-            <h3>Retrofit</h3>
-            <p>A type-safe HTTP client for Android and Java, making it easy to consume RESTful web services and APIs.</p>
-          </div>
-          <div className="tool-card">
-            <h3>Gradle</h3>
-            <p>The powerful build automation tool used to manage dependencies, customized build logic, and app packaging.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Android in E Labs Section */}
-      <div className="info-box reverse slide-left">
-        <div className="info-content">
-          <h2>Android in E Labs</h2>
-          <p>
-            At E Labs, we don't just write code; we solve real-world problems through mobile innovation. Our projects range from campus utilities to smart-home controllers.
-          </p>
-          <h3 className="rr"><span>Android at E Labs is used for:</span></h3>
-          <p>
-            • Campus utility applications<br />
-            • IoT device controllers via Bluetooth/WiFi<br />
-            • Event management systems<br />
-            • Real-time chat and collaboration tools
-          </p>
-          <button className="more-btn" onClick={() => openInfo('elabs')}>Know More</button>
-        </div>
-        <div className="info-image1">
-          <img src={mobileImg} alt="Android in E Labs" />
-        </div>
+        </section>
       </div>
 
-      {/* Modern Android Section */}
-      <div className="info-box fade-down zoom-in">
-        <div className="info-content">
-          <h2>Modern Android (Kotlin)</h2>
-          <p>
-            E Labs has shifted focus to <strong>Kotlin-first</strong> development. We leverage modern architecture patterns like MVVM and Clean Architecture to ensure our apps are robust and maintainable.
-          </p>
-          <h3 className="rr"><span>Why We Choose Kotlin:</span></h3>
-          <p>
-            • Null Safety (No more NullPointerExceptions)<br />
-            • Coroutines for asynchronous programming<br />
-            • Concise syntax reduces boilerplate<br />
-            • Seamless interoperability with Java
-          </p>
-          <button className="more-btn" onClick={() => openInfo('https://kotlinlang.org/')}>Know More</button>
-        </div>
-        <div className="info-image">
-          <img src={kotlinImg} alt="Modern Android Development" />
-        </div>
-      </div>  
+      <div className="dp-section-bg">
+        <section className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Tools & Technologies We Use</h2>
+          <p className="dp-section-subtitle scroll-anim">Google's modern Android development ecosystem</p>
+          <div className="dp-tools-grid">
+            {tools.map((tool, i) => (
+              <div className="dp-tool-card scroll-anim flip-in" key={i}>
+                <span className="dp-tool-icon">{tool.icon}</span>
+                <h4>{tool.name}</h4>
+                <p>{tool.desc}</p>
+                <a href={tool.link} target="_blank" rel="noreferrer" className="dp-tool-link">Learn More</a>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
 
-      {/* Applications Section */}
-      <section className="applications-section fade-up zoom-in" id="applications">
-        <h2>Scope of Android</h2>
-        <div className="applications-header">
-          <div className="app-image">
-           <img src={appImg} alt="Scope of Android" />
+      <div className="dp-section-bg">
+        <section className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Android at Elabs — Impact</h2>
+          <p className="dp-section-subtitle scroll-anim">Why Android development matters</p>
+          <div className="dp-stats-grid">
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">3B+</div><h4>Active Devices</h4><p>Android runs on over 3 billion active devices globally</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">72%</div><h4>Market Share</h4><p>Android dominates the global smartphone market</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">8+</div><h4>Apps Built</h4><p>Real Android applications created by Elabs members</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">∞</div><h4>Opportunity</h4><p>From fintech to healthcare, every industry needs mobile apps</p></div>
           </div>
-          <div className="app-content">
-            <p>
-              The <strong>Android</strong> platform extends far beyond just smartphones. 
-              Developers today are building experiences for wrist (Wear OS), 
-              living room (Android TV), car (Android Auto), and even custom 
-              hardware implementations. It is a gateway to the entire ecosystem of smart devices.
-            </p>
-            <button className="more-btn" onClick={() => openInfo('https://developer.android.com/about/dashboards')}>Know More</button>
+          <div className="dp-impact-box scroll-anim zoom-in">
+            <h3>The Real Impact</h3>
+            <p>Mobile apps have transformed how people live, work, and communicate. At Elabs, Android development goes beyond coding — it's about designing experiences that solve real problems for real users. Our members build apps they're proud to show the world, not just classroom exercises.</p>
           </div>
-        </div>
-        <div className="applications-grid">
-          <div className="app-card">
-            <h3>Smartphones & Tablets</h3>
-            <p>The primary target for most apps, reaching billions of users globally with diverse form factors.</p>
-          </div>
-          <div className="app-card">
-            <h3>Wear OS</h3>
-            <p>Building fitness trackers, health monitors, and companion apps for smartwatches.</p>
-          </div>
-          <div className="app-card">
-            <h3>Android Auto</h3>
-            <p>Extending apps to the car dashboard for navigation, media, and safe messaging.</p>
-          </div>
-          <div className="app-card">
-            <h3>Android TV</h3>
-            <p>Creating immersive media and gaming experiences for the big screen.</p>
-          </div>
-          <div className="app-card">
-            <h3>Internet of Things (IoT)</h3>
-            <p>Using Android Things (or standard Android) to power kiosks, smart displays, and industrial panels.</p>
-          </div>
-          <div className="app-card">
-            <h3>Chromebooks</h3>
-            <p>Optimizing Android applications to run seamlessly on Chrome OS laptops.</p>
-          </div>
-        </div>
-      </section>
-    </>
+        </section>
+      </div>
+    </div>
   );
 };
 
-export default AndroidELabs;
+export default Android;

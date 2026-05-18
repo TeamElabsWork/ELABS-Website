@@ -13,40 +13,42 @@ import Layout from "./components/Layouts/Layout.jsx";
 import TopPerformers from "./components/mainComponents/TopPerformers.jsx";
 
 
-import Home from "./components/mainComponents/Home";
-import About from "./components/mainComponents/About.jsx";
-import Events from "./components/mainComponents/Events.jsx";
-import MembersPage from "./components/mainComponents/MembersPage.jsx";
-import Feedback from "./components/mainComponents/Feedback.jsx";
-import Domain from "./components/mainComponents/Domain.jsx";
-import StudyMt from "./components/mainComponents/StudyMt.jsx";
-import Materials from "./components/mainComponents/Materials.jsx";
-import PdfView from "./components/mainComponents/PdfView.jsx";
-import Project from "./components/mainComponents/Project.jsx";
-import Gallery from "./components/mainComponents/Gallery.jsx";
-import AddEvent from "./components/mainComponents/AddEvent.jsx";
-import SubmitFeedback from "./components/mainComponents/SubmitFeedback.jsx";
-import Recruitment from "./components/mainComponents/Recruitment.jsx";
-import DomainDetail from "./components/mainComponents/DomainDetail.jsx";
+const Home = React.lazy(() => import("./components/mainComponents/Home"));
+const About = React.lazy(() => import("./components/mainComponents/About.jsx"));
+const Events = React.lazy(() => import("./components/mainComponents/Events.jsx"));
+const MembersPage = React.lazy(() => import("./components/mainComponents/MembersPage.jsx"));
+const Achievements = React.lazy(() => import("./components/mainComponents/Achievements.jsx"));
+const Feedback = React.lazy(() => import("./components/mainComponents/Feedback.jsx"));
+const Domain = React.lazy(() => import("./components/mainComponents/Domain.jsx"));
+const StudyMt = React.lazy(() => import("./components/mainComponents/StudyMt.jsx"));
+const Materials = React.lazy(() => import("./components/mainComponents/Materials.jsx"));
+const PdfView = React.lazy(() => import("./components/mainComponents/PdfView.jsx"));
+const Project = React.lazy(() => import("./components/mainComponents/Project.jsx"));
+const Gallery = React.lazy(() => import("./components/mainComponents/Gallery.jsx"));
+const AddEvent = React.lazy(() => import("./components/mainComponents/AddEvent.jsx"));
+const SubmitFeedback = React.lazy(() => import("./components/mainComponents/SubmitFeedback.jsx"));
+const Recruitment = React.lazy(() => import("./components/mainComponents/Recruitment.jsx"));
+const DomainDetail = React.lazy(() => import("./components/mainComponents/DomainDetail.jsx"));
+const InitiativeDetail = React.lazy(() => import("./components/mainComponents/InitiativeDetail.jsx"));
 
-import SplashScreen from "./components/mainComponents/SplashScreen.jsx";
-import Web from "./components/mainComponents/WebDev/WebDev.jsx";
-import GraphicDesign from "./components/mainComponents/GraphicDesign.jsx";
-import CloudComputing from "./components/mainComponents/CloudComputing.jsx";
-import Java from "./components/mainComponents/java/JavaELabs.jsx";
-import UIUX from "./components/mainComponents/UIUX/UIUX.jsx";
-import Aiml from "./components/mainComponents/Aiml/Aiml.jsx";
-import Photography from "./components/mainComponents/photography/Photography.jsx";
-import IoTEmbedded from "./components/mainComponents/IoTEmbedded.jsx";
-import Cyber from "./components/mainComponents/cyber_security/cyber_security.jsx";
-import GameDev from "./components/mainComponents/gamedev/GameDev.jsx";
-import LeadHero from "./components/mainComponents/RunningText.jsx";
-import Android from "./components/mainComponents/android/android.jsx";
-import Data from "./components/mainComponents/data_analytics/DataAnalyticsElabs.jsx";
+const SplashScreen = React.lazy(() => import("./components/mainComponents/SplashScreen.jsx"));
+const Web = React.lazy(() => import("./components/mainComponents/WebDev/WebDev.jsx"));
+const GraphicDesign = React.lazy(() => import("./components/mainComponents/GraphicDesign.jsx"));
+const CloudComputing = React.lazy(() => import("./components/mainComponents/CloudComputing.jsx"));
+const Java = React.lazy(() => import("./components/mainComponents/java/JavaELabs.jsx"));
+const UIUX = React.lazy(() => import("./components/mainComponents/UIUX/UIUX.jsx"));
+const Aiml = React.lazy(() => import("./components/mainComponents/Aiml/Aiml.jsx"));
+const Photography = React.lazy(() => import("./components/mainComponents/photography/Photography.jsx"));
+const IoTEmbedded = React.lazy(() => import("./components/mainComponents/IoTEmbedded.jsx"));
+const Cyber = React.lazy(() => import("./components/mainComponents/cyber_security/cyber_security.jsx"));
+const GameDev = React.lazy(() => import("./components/mainComponents/gamedev/GameDev.jsx"));
+const LeadHero = React.lazy(() => import("./components/mainComponents/RunningText.jsx"));
+const Android = React.lazy(() => import("./components/mainComponents/android/android.jsx"));
+const Data = React.lazy(() => import("./components/mainComponents/data_analytics/DataAnalyticsElabs.jsx"));
 
-import EventRegistration from "./components/subComponents/EventRegistration.jsx";
-import EventDetails from "./components/subComponents/EventDetails.jsx";
-import SubmissionSuccess from "./components/subComponents/SubmissionSuccess.jsx";
+const EventRegistration = React.lazy(() => import("./components/subComponents/EventRegistration.jsx"));
+const EventDetails = React.lazy(() => import("./components/subComponents/EventDetails.jsx"));
+const SubmissionSuccess = React.lazy(() => import("./components/subComponents/SubmissionSuccess.jsx"));
 
 const route = createBrowserRouter(
   createRoutesFromElements(
@@ -56,6 +58,7 @@ const route = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="events" element={<Events />} />
       <Route path="members" element={<MembersPage />}> </Route>
+      <Route path="achievements" element={<Achievements />}> </Route>
       <Route path="feedback" element={<Feedback />} />
       <Route path="domain" element={<Domain />} />
       <Route path="leadhero" element={<LeadHero />}></Route>
@@ -89,6 +92,7 @@ const route = createBrowserRouter(
 
       <Route path="recruitment" element={<Recruitment />}></Route>
       <Route path="recruitment/:domainId" element={<DomainDetail />}></Route>
+      <Route path="initiatives/:id" element={<InitiativeDetail />}></Route>
       <Route
         path="*"
         element={

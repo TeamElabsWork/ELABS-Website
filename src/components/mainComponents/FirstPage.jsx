@@ -69,8 +69,8 @@ const FirstPage = ({ prefersReducedMotion = false }) => {
         });
       }
     },
-    { 
-      scope: sectionRef, 
+    {
+      scope: sectionRef,
       dependencies: [prefersReducedMotion] // Added missing dependency
     }
   );
@@ -82,7 +82,7 @@ const FirstPage = ({ prefersReducedMotion = false }) => {
         <div className="hero-media-card">
           <video
             ref={videoRef}
-            src="/InShot.mp4"
+            src="https://ik.imagekit.io/tm5te9cjl/Elabs%20web/InShot.mp4"
             autoPlay
             muted
             loop
@@ -144,9 +144,9 @@ const FirstPage = ({ prefersReducedMotion = false }) => {
               />
             </div>
 
-            <Link to="/members" className="cta-wrapper">
+            <Link to="/achievements" className="cta-wrapper">
               <div className="cta-button group">
-                <span className="cta-text">Members</span>
+                <span className="cta-text">Achievements</span>
                 <span className="arrow-wrapper">
                   <img
                     src="/Images/Logo/WebDevelopment.png"

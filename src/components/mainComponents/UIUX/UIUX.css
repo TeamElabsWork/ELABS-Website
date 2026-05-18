@@ -53,9 +53,9 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg-dark); color: va
 .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 107, 0, 0.4), transparent); top: -200px; right: -200px; border-radius: 50%; filter: blur(90px); animation: pulse 8s ease-in-out infinite; z-index: -1; -webkit-filter: blur(90px); }
 .hero::after { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255, 140, 66, 0.3), transparent); bottom: -150px; left: -150px; border-radius: 50%; filter: blur(70px); animation: pulse 6s ease-in-out infinite; z-index: -1; -webkit-filter: blur(70px); }
 @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.8; } }
-.hero-content { max-width: 900px; text-align: center; position: relative; z-index: 10; animation: fadeInUp 1s ease; }
+.hero-content { max-width: 1000px; text-align: center; position: relative; z-index: 10; animation: fadeInUp 1s ease; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-.hero-title { font-size: 3.2rem; font-family: 'Playfair Display', serif; font-weight: 800; line-height: 1.2; margin-bottom: 1.2rem; color: var(--text-light); }
+.hero-title { font-size: 4.2rem; font-family: 'Playfair Display', serif; font-weight: 800; line-height: 1.15; margin-bottom: 1.2rem; color: var(--text-light); letter-spacing: -0.02em; }
 .hero-title-highlight { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; }
 .hero-description { font-size: 1.05rem; color: var(--text-gray); margin-bottom: 2.5rem; line-height: 1.7; }
 .hero-cta-group { display: flex; gap: 1.5rem; justify-content: center; }

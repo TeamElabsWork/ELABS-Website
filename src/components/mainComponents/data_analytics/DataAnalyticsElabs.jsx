@@ -1,292 +1,117 @@
-import React, { useEffect, useRef } from "react";
-import "./DataAnalyticsElabs.css";
+import React from 'react';
+import '../shared/DomainPage.css';
+import DomainParticles from '../shared/DomainParticles';
+import useDomainScrollAnimations from '../shared/useDomainScrollAnimations';
+import RotatingText from '../shared/RotatingText';
 
-import analyticsLogo from "./Images/data-analytics.png";
-import colabImg from "./Images/colab.png";
-import pythonImg from "./Images/python.png";
-import mlImg from "./Images/ml.png";
-import appImg from "./Images/analytics-app.png";
-import sclearn from "./Images/sclearn.png";
-import sql from "./Images/sql.png";
-import tableau from "./Images/tableau.png";
-import powerbi from "./Images/powerbi.png";
-import newbody from "./Images/newbody.jpg";
+const DataAnalytics = () => {
+  useDomainScrollAnimations();
 
-
-const DataAnalyticsELabs = () => {
-  const canvasRef = useRef(null);
-  const logoRef = useRef(null);
-
-  const openInfo = (url) => {
-    window.open(url, "_blank");
-  };
-
-  useEffect(() => {
-    document.body.classList.add("java-page-loading");
-    const timer = setTimeout(() => {
-      document.body.classList.add("java-page-loaded");
-    }, 100);
-
-    const logo = logoRef.current;
-    const handleLogoMove = (e) => {
-      if (!logo) return;
-      const x = (window.innerWidth / 2 - e.pageX) / 25;
-      const y = (window.innerHeight / 2 - e.pageY) / 25;
-      logo.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.05)`;
-    };
-    const handleLogoLeave = () => {
-      if (!logo) return;
-      logo.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
-    };
-
-    logo?.addEventListener("mousemove", handleLogoMove);
-    logo?.addEventListener("mouseleave", handleLogoLeave);
-
-    const animatedSections = document.querySelectorAll(
-      ".fade-up, .fade-left, .fade-right, .fade-down, .zoom-in, .slide-left, .slide-up, .tools-grid"
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            if (entry.target.classList.contains("tools-grid")) {
-              entry.target.querySelectorAll(".tool-card").forEach((card, i) => {
-                setTimeout(() => card.classList.add("visible"), i * 120);
-              });
-            }
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    animatedSections.forEach((section) => observer.observe(section));
-
-    return () => {
-      clearTimeout(timer);
-      document.body.classList.remove("java-page-loading", "java-page-loaded");
-      logo?.removeEventListener("mousemove", handleLogoMove);
-      logo?.removeEventListener("mouseleave", handleLogoLeave);
-      observer.disconnect();
-    };
-  }, []);
+  const tools = [
+    { icon: '🐍', name: 'Python', desc: 'The lingua franca of data science — versatile, readable, and backed by a massive ecosystem of libraries.', link: 'https://www.python.org' },
+    { icon: '🐼', name: 'Pandas', desc: 'Powerful data manipulation and analysis library for Python — the go-to for cleaning and exploring datasets.', link: 'https://pandas.pydata.org' },
+    { icon: '📊', name: 'Matplotlib / Seaborn', desc: 'Core Python visualization libraries for creating static, animated, and interactive charts and graphs.', link: 'https://matplotlib.org' },
+    { icon: '🤖', name: 'Scikit-learn', desc: 'Simple and efficient tools for machine learning in Python — classification, regression, clustering, and more.', link: 'https://scikit-learn.org' },
+    { icon: '📓', name: 'Jupyter Notebook', desc: 'Interactive computing environment for combining code, visualizations, and narrative text in one document.', link: 'https://jupyter.org' },
+    { icon: '📈', name: 'Power BI / Tableau', desc: 'Industry-leading BI tools for creating powerful, interactive dashboards and business intelligence reports.', link: 'https://powerbi.microsoft.com' },
+  ];
 
   return (
-    <>
-      <canvas id="particleCanvas" ref={canvasRef}></canvas>
+    <div className="domain-page">
+      <DomainParticles />
 
-      {/* Hero Section */}
-      <section className="front">
-        <div className="javalogo">
-          <img src={analyticsLogo} ref={logoRef} alt="Data Analytics Logo" />
-        </div>
-        <div className="front-box">
-          <h1 className="hero-title">Data Analytics at E Labs</h1>
-          <p>
-            Welcome to the <span>Data Analytics</span> domain of <span>E Labs</span>.
-            This domain focuses on extracting <span>meaningful insights</span> from
-            raw data using <span>statistical analysis</span>, <span>machine learning</span>,
-            and <span>real-world datasets</span>.
+      <section className="dp-hero">
+        <div className="dp-hero-content">
+          <p className="dp-hero-subtitle-line">Turn raw data into decisions using</p>
+          <h1 className="dp-hero-title">
+            <span className="dp-rotating-wrapper">
+              <RotatingText
+                texts={['Python', 'Pandas', 'Scikit-learn', 'Jupyter', 'Power BI']}
+                mainClassName="px-3 py-1 bg-orange-500 text-white overflow-hidden rounded-xl"
+                staggerFrom="last"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-120%' }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden pb-0.5"
+                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+                rotationInterval={2000}
+                splitBy="characters"
+                auto
+                loop
+              />
+            </span>
+            {' '}at Elabs
+          </h1>
+          <p className="dp-hero-desc">
+            Unlock the power hidden inside data. Learn to collect, clean, analyze, and visualize information that drives better decisions and builds smarter systems.
           </p>
-          <p>
-            At <span>E Labs</span>, members learn how data is
-            <span> collected</span>, <span>cleaned</span>, <span>trained</span>, and
-            transformed into <span>actionable intelligence</span> using industry tools.
-          </p>
+          <div className="dp-hero-ctas">
+            <button className="dp-btn dp-btn-primary" onClick={() => document.getElementById('data-what')?.scrollIntoView({ behavior: 'smooth' })}>
+              Explore Now
+            </button>
+            <button className="dp-btn dp-btn-secondary">Join Data @ Elabs</button>
+          </div>
         </div>
+        <div className="dp-hero-fade" />
       </section>
 
+      <div className="dp-section-bg">
+        <section id="data-what" className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Data Analytics — The Science of Insight</h2>
+          <p className="dp-section-subtitle scroll-anim">Finding meaning in the world's most valuable resource</p>
+          <div className="dp-what-grid">
+            <div className="dp-what-text scroll-anim slide-left">
+              <h3>Every Decision Backed by Data</h3>
+              <p><strong>Data Analytics</strong> is the process of examining, cleaning, transforming, and modeling data to discover useful information, draw conclusions, and support decision-making.</p>
+              <p><strong>Machine Learning</strong> takes it further — building systems that learn from data patterns to make predictions and automate intelligent decisions without explicit programming.</p>
+              <p>At Elabs, we analyze real datasets, build predictive models, and create dashboards that communicate findings clearly and beautifully to stakeholders.</p>
+            </div>
+            <div className="dp-feature-cards scroll-anim slide-right">
+              <div className="dp-feature-card"><strong>Data Wrangling & EDA</strong>Clean messy real-world data and explore it to find hidden patterns and trends.</div>
+              <div className="dp-feature-card"><strong>Statistical Analysis</strong>Apply statistical methods to validate hypotheses and draw reliable conclusions.</div>
+              <div className="dp-feature-card"><strong>Machine Learning Models</strong>Train and evaluate models for classification, regression, and clustering tasks.</div>
+              <div className="dp-feature-card"><strong>Data Visualization</strong>Build interactive dashboards and charts that make complex data instantly understandable.</div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-      {/* Data Analytics Overview Section */}
-      <section className="java-info-section">
-        <div className="info-box fade-left">
-          {/* Text Content */}
-          <div className="info-content">
-            <h2>What is Data Analytics?</h2>
-            <p>
-              <strong>Data Analytics</strong> is the process of analyzing raw data to
-              discover patterns, trends, and insights that support decision-making.
-              It involves collecting, cleaning, analyzing, and visualizing data to
-              answer questions, understand performance, and drive strategy.
-            </p>
-
-            <h3 className="rr">
-              <span>Core Areas of Data Analytics</span>
-            </h3>
-
-            <p className="section-intro">
-              Data Analytics is a multidisciplinary field combining statistics,
-              programming, and domain knowledge. Each area plays a crucial role in
-              converting raw data into actionable insights.
-            </p>
-
-            <div className="core-grid">
-              <div className="core-card">
-                <h4>Data Cleaning</h4>
-                <p>Handling missing values, outliers, and inconsistencies in raw data.</p>
+      <div className="dp-section-bg">
+        <section className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Tools & Technologies We Use</h2>
+          <p className="dp-section-subtitle scroll-anim">The modern data science stack</p>
+          <div className="dp-tools-grid">
+            {tools.map((tool, i) => (
+              <div className="dp-tool-card scroll-anim flip-in" key={i}>
+                <span className="dp-tool-icon">{tool.icon}</span>
+                <h4>{tool.name}</h4>
+                <p>{tool.desc}</p>
+                <a href={tool.link} target="_blank" rel="noreferrer" className="dp-tool-link">Learn More</a>
               </div>
-
-            <div className="core-card">
-              <h4>Exploratory Analysis</h4>
-              <p>Understanding data distributions, trends, and relationships.</p>
-            </div>
-
-            <div className="core-card">
-              <h4>Statistical Modeling</h4>
-              <p>Applying probability and statistical techniques to derive insights.</p>
-            </div>
-
-            <div className="core-card">
-              <h4>Machine Learning</h4>
-              <p>Training models to predict outcomes and discover hidden patterns.</p>
-            </div>
-
-            <div className="core-card">
-              <h4>Visualization</h4>
-              <p>Communicating insights through charts, dashboards, and reports.</p>
-            </div>
+            ))}
           </div>
-        </div>
-          {/* Image */}
-          <div className="info-image1">
-            <img src={newbody} alt="Data Analytics Overview" />
-          </div>
-      </div>
-      </section>  
-
-      {/* Tools Section */}
-      <section className="tools-section slide-up">
-        <h2>Tools Used in Data Analytics</h2>
-        <p className="tools-subtext mb-10">
-          Industry-standard tools that help analysts experiment, train, visualize, and deploy data-driven solutions efficiently.
-          These tools bridge the gap between raw data and real-world decision-making at scale.
-        </p>
-
-        <div className="tools-grid">
-          <div className="tool-card">
-            <img src={colabImg} alt="Google Colab" />
-            <h3>Google Colab</h3>
-            <p>
-              A cloud-based notebook environment that enables rapid experimentation,
-              collaboration, and scalable model training without local setup.
-            </p>
-          </div>
-
-          <div className="tool-card">
-            <img src={pythonImg} alt="Python" />
-            <h3>Python</h3>
-            <p>
-              The backbone of data analytics, powering data manipulation,
-              visualization, and machine learning through rich libraries.
-            </p>
-          </div>
-
-          <div className="tool-card">
-            <img src={sclearn} alt="Scikit-learn" className="tool-icon" />
-            <h3>Scikit-learn</h3>
-            <p>
-              A powerful machine learning library used for building, training,
-              evaluating, and optimizing predictive models.
-            </p>
-          </div>
-
-          <div className="tool-card">
-            <img src={sql} alt="SQL" className="tool-icon"/>
-            <h3>SQL</h3>
-            <p>
-              Essential for querying, filtering, and managing large structured
-              datasets efficiently.
-            </p>
-          </div>
-
-          <div className="tool-card">
-            <img src={tableau} alt="Tableau" className="tool-icon"/>
-            <h3>Tableau</h3>
-            <p>
-              A powerful data visualization tool used to create interactive dashboards
-              and reports for business intelligence.
-            </p>
-          </div>
-
-           <div className="tool-card">
-            <img src={powerbi} alt="Power BI" className="tool-icon"/>
-            <h3>Power BI</h3>
-            <p>
-              A business analytics tool by Microsoft that helps you turn data into actionable insights.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* Training Section */}
-      <div className="info-box reverse slide-left">
-        <div className="info-content">
-          <h2>How Data is Trained</h2>
-          <p>
-            Data training involves feeding cleaned data into algorithms so they can
-            learn patterns and make predictions.
-          </p>
-          <h3 className="rr"><span>Training Workflow:</span></h3>
-          <p>
-            • Data Collection<br />
-            • Data Cleaning<br />
-            • Feature Selection<br />
-            • Model Training<br />
-            • Evaluation & Optimization
-          </p>
-        </div>
-        <div className="info-image1">
-          <img src={mlImg} alt="Model Training" />
-        </div>
+        </section>
       </div>
 
-      {/* Applications Section */}
-      <section className="applications-section fade-up zoom-in mb-16">
-        <h2>Applications of Data Analytics</h2>
-        <div className="applications-header">
-          <div className="app-image">
-            <img src={appImg} alt="Applications" />
+      <div className="dp-section-bg">
+        <section className="dp-section">
+          <h2 className="dp-section-title scroll-anim zoom-in">Data Analytics at Elabs — Impact</h2>
+          <p className="dp-section-subtitle scroll-anim">Why data literacy is the most critical skill of the century</p>
+          <div className="dp-stats-grid">
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">2.5EB</div><h4>Daily Data</h4><p>2.5 exabytes of new data are created every single day</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">#1</div><h4>Hottest Job</h4><p>Data Scientist ranked as the #1 job in the US for multiple years running</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">15+</div><h4>Datasets</h4><p>Real-world datasets analyzed and modeled by Elabs members</p></div>
+            <div className="dp-stat-card scroll-anim"><div className="dp-stat-number">92%</div><h4>Accuracy</h4><p>Average model accuracy achieved by Elabs data projects</p></div>
           </div>
-          <div className="app-content">
-            <p>
-              Data analytics is applied across industries for decision-making, from optimizing logistics and detecting fraud in finance to personalizing customer experiences in retail and improving patient care in healthcare, by finding patterns in data to predict outcomes, streamline operations, manage risks, and enhance services.
-            </p>
+          <div className="dp-impact-box scroll-anim zoom-in">
+            <h3>The Real Impact</h3>
+            <p>Data is the new oil — and knowing how to refine it is an invaluable superpower. At Elabs, our data analytics members don't just learn Python. They tackle real problems, from predicting student performance to analyzing sensor data from engineering systems, making their work directly relevant to the world around them.</p>
           </div>
-        </div>
-
-        <div className="applications-grid">
-          <div className="app-card">
-            <h3>Business Intelligence</h3>
-            <p>Analyzing sales, revenue, and customer behavior.</p>
-          </div>
-          <div className="app-card">
-            <h3>Healthcare Analytics</h3>
-            <p>Predicting diseases and improving patient outcomes.</p>
-          </div>
-          <div className="app-card">
-            <h3>Financial Analytics</h3>
-            <p>Fraud detection and market trend prediction.</p>
-          </div>
-          <div className="app-card">
-            <h3>AI & ML Systems</h3>
-            <p>Building intelligent, data-driven applications.</p>
-          </div>
-          <div className="app-card">
-            <h3>Customer Analytics</h3>
-            <p>Understanding customer preferences and user engagement.</p>
-          </div>
-          <div className="app-card">
-            <h3>Supply Chain Analytics</h3>
-            <p>Optimizing logistics and operational efficiency using data.</p>
-          </div>
-        </div>
-      </section>
-    </>
+        </section>
+      </div>
+    </div>
   );
 };
 
-export default DataAnalyticsELabs;
+export default DataAnalytics;
