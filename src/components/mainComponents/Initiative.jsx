@@ -15,48 +15,48 @@ const initiativesData = [
     title: "KIITO App",
     description: "Your ultimate digital companion for campus life. Manage attendance, assignments, and more in one place.",
     image: "https://placehold.co/600x400/1a1a2e/ffffff?text=KIITO+App",
-    color: "from-blue-500 to-cyan-400"
+    color: "from-orange-500 to-orange-700"
   },
   {
     id: "leet-verse",
     title: "Leet Verse",
     description: "A competitive programming universe where you solve algorithms, climb leaderboards, and conquer challenges.",
-    image: "https://placehold.co/600x400/2a1b3d/ffffff?text=Leet+Verse",
-    color: "from-purple-500 to-pink-500"
+    image: "https://placehold.co/600x400/000000/f97316?text=Leet+Verse",
+    color: "from-orange-600 to-neutral-900"
   },
   {
     id: "artico",
     title: "Artico",
     description: "Unleash your creativity. A digital canvas and community for artists to showcase their masterpieces.",
-    image: "https://placehold.co/600x400/4a154b/ffffff?text=Artico",
-    color: "from-orange-400 to-rose-400"
+    image: "https://placehold.co/600x400/121212/f97316?text=Artico",
+    color: "from-orange-400 to-orange-600"
   },
   {
     id: "renora",
     title: "Renora",
     description: "Next-gen web framework simplifying the creation of highly interactive and performant web applications.",
-    image: "https://placehold.co/600x400/113f67/ffffff?text=Renora",
-    color: "from-emerald-400 to-teal-500"
+    image: "https://placehold.co/600x400/1a1a1a/f97316?text=Renora",
+    color: "from-orange-500 to-black"
   },
   {
     id: "blade-bit",
     title: "Blade Bit",
     description: "Your ultimate study app offering a comprehensive suite of tools designed to maximize your learning efficiency.",
-    image: "https://placehold.co/600x400/800000/ffffff?text=Blade+Bit",
-    color: "from-red-500 to-rose-700"
+    image: "https://placehold.co/600x400/000000/f97316?text=Blade+Bit",
+    color: "from-orange-600 to-orange-800"
   },
   {
     id: "code-nexus",
     title: "Code Nexus",
     description: "A collaborative hub for developers to share snippets, review code, and build projects together.",
-    image: "https://placehold.co/600x400/003300/ffffff?text=Code+Nexus",
-    color: "from-green-400 to-emerald-600"
+    image: "https://placehold.co/600x400/121212/f97316?text=Code+Nexus",
+    color: "from-orange-400 to-black"
   }
 ];
 
 const Initiative = () => {
   return (
-    <section id="initiatives" className="py-20 w-full overflow-x-hidden overflow-y-visible relative">
+    <section id="initiatives" className="py-20 w-full overflow-x-hidden overflow-y-visible relative bg-[#0a0a0a]">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 dark:to-white/5 pointer-events-none" />
       
@@ -120,9 +120,9 @@ const Initiative = () => {
             {initiativesData.map((item, index) => (
               <SwiperSlide key={item.id} className="max-w-[350px] sm:max-w-[400px]">
                 <Link to={`/initiatives/${item.id}`} className="block group">
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(249,_115,_22,_0.5)] bg-[#121212] border border-orange-500/20 group-hover:border-orange-500/50">
                     <div className="relative h-48 md:h-56 overflow-hidden">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-40 group-hover:opacity-60 transition-opacity duration-300 mix-blend-overlay z-10`}></div>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-40 group-hover:opacity-70 transition-opacity duration-300 mix-blend-overlay z-10`}></div>
                       <img 
                         src={item.image} 
                         alt={item.title} 
@@ -130,10 +130,10 @@ const Initiative = () => {
                       />
                     </div>
                     <div className="p-6 relative z-20">
-                      <h3 className="text-2xl font-bold mb-2 text-gray-800 dark:text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-rose-400 transition-all">
+                      <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-orange-600 transition-all">
                         {item.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+                      <p className="text-gray-400 text-sm line-clamp-3">
                         {item.description}
                       </p>
                       
