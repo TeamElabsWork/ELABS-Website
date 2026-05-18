@@ -69,8 +69,8 @@ const FirstPage = ({ prefersReducedMotion = false }) => {
         });
       }
     },
-    { 
-      scope: sectionRef, 
+    {
+      scope: sectionRef,
       dependencies: [prefersReducedMotion] // Added missing dependency
     }
   );

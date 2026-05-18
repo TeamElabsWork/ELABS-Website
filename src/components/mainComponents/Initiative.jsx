@@ -56,7 +56,7 @@ const initiativesData = [
 
 const Initiative = () => {
   return (
-    <section id="initiatives" className="py-20 w-full overflow-hidden relative">
+    <section id="initiatives" className="py-20 w-full overflow-x-hidden overflow-y-visible relative">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 dark:to-white/5 pointer-events-none" />
       
@@ -101,7 +101,7 @@ const Initiative = () => {
             }}
             pagination={{ clickable: true }}
             modules={[EffectCoverflow, Pagination, Autoplay]}
-            className="w-full py-10"
+            className="w-full pt-16 pb-24 px-4"
             breakpoints={{
               320: {
                 slidesPerView: 1,
@@ -157,6 +157,11 @@ const Initiative = () => {
       
       {/* Custom styles to hide default swiper pagination and make it look better */}
       <style>{`
+        .swiper {
+          overflow: visible !important;
+          padding-top: 60px !important;
+          padding-bottom: 80px !important;
+        }
         .swiper-pagination-bullet {
           background: #f97316 !important;
           opacity: 0.5;
