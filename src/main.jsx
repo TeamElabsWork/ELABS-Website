@@ -28,6 +28,7 @@ const AddEvent = React.lazy(() => import("./components/mainComponents/AddEvent.j
 const SubmitFeedback = React.lazy(() => import("./components/mainComponents/SubmitFeedback.jsx"));
 const Recruitment = React.lazy(() => import("./components/mainComponents/Recruitment.jsx"));
 const DomainDetail = React.lazy(() => import("./components/mainComponents/DomainDetail.jsx"));
+const InitiativeDetail = React.lazy(() => import("./components/mainComponents/InitiativeDetail.jsx"));
 
 const SplashScreen = React.lazy(() => import("./components/mainComponents/SplashScreen.jsx"));
 const Web = React.lazy(() => import("./components/mainComponents/WebDev/WebDev.jsx"));
@@ -89,6 +90,7 @@ const route = createBrowserRouter(
 
       <Route path="recruitment" element={<Recruitment />}></Route>
       <Route path="recruitment/:domainId" element={<DomainDetail />}></Route>
+      <Route path="initiatives/:id" element={<InitiativeDetail />}></Route>
       <Route
         path="*"
         element={
