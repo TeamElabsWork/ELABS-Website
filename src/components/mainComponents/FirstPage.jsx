@@ -144,9 +144,9 @@ const FirstPage = ({ prefersReducedMotion = false }) => {
               />
             </div>
 
-            <Link to="/members" className="cta-wrapper">
+            <Link to="/achievements" className="cta-wrapper">
               <div className="cta-button group">
-                <span className="cta-text">Members</span>
+                <span className="cta-text">Achievements</span>
                 <span className="arrow-wrapper">
                   <img
                     src="/Images/Logo/WebDevelopment.png"
