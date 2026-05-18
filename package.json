@@ -22,6 +22,7 @@
     "framer-motion": "^11.18.2",
     "gsap": "^3.14.2",
     "lucide-react": "^0.562.0",
+    "motion": "^12.39.0",
     "ogl": "^1.0.11",
     "particles.js": "^2.0.0",
     "pdfjs-dist": "^4.5.136",

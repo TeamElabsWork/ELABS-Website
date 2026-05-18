@@ -19,10 +19,9 @@
 }
 
 /* prevent horizontal scroll */
-html, body, #root {
+body {
   width: 100%;
   overflow-x: hidden;
-
 }
 
 /* smooth scrolling */

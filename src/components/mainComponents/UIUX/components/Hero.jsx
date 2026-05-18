@@ -1,46 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import RotatingText from '../../shared/RotatingText';
 
 const Hero = () => {
-  const heroRef = useRef(null);
-
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!heroRef.current) return;
-      
-      const heroRect = heroRef.current.getBoundingClientRect();
-      const heroTitle = heroRef.current.querySelector('.hero-title');
-      const heroDescription = heroRef.current.querySelector('.hero-description');
-      const heroCTAGroup = heroRef.current.querySelector('.hero-cta-group');
-
-      if (heroRect.bottom < 0) {
-        heroRef.current.classList.add('fadeOut');
-        if(heroTitle) heroTitle.classList.add('scroll-out');
-        if(heroDescription) heroDescription.classList.add('scroll-out');
-        if(heroCTAGroup) heroCTAGroup.classList.add('scroll-out');
-      } else {
-        heroRef.current.classList.remove('fadeOut');
-        if(heroTitle) heroTitle.classList.remove('scroll-out');
-        if(heroDescription) heroDescription.classList.remove('scroll-out');
-        if(heroCTAGroup) heroCTAGroup.classList.remove('scroll-out');
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <section className="hero" ref={heroRef}>
+    <section className="hero" style={{ position: 'relative' }}>
       <div className="hero-content">
-        <h1 className="hero-title">
-          Design the Future with <span className="hero-title-highlight">UI/UX Excellence</span>
+        <p style={{ fontSize: '1.4rem', color: '#cccccc', marginBottom: '0.6rem', fontFamily: 'Poppins, sans-serif', fontWeight: 400 }}>
+          Design the future using
+        </p>
+        <h1 className="hero-title" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <RotatingText
+              texts={['Figma', 'Prototyping', 'User Research', 'Design Systems', 'Wireframing']}
+              mainClassName="px-3 py-1 bg-orange-500 text-white overflow-hidden rounded-xl"
+              staggerFrom="last"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '-120%' }}
+              staggerDuration={0.025}
+              splitLevelClassName="overflow-hidden pb-0.5"
+              transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+              rotationInterval={2000}
+              splitBy="characters"
+              auto
+              loop
+            />
+          </span>
+          <span className="hero-title-highlight" style={{ display: 'inline' }}>at Elabs</span>
         </h1>
         <p className="hero-description">
           Join our design community where innovation meets creativity. Master the art of creating beautiful, intuitive digital experiences that captivate users and solve real problems.
@@ -54,6 +45,17 @@ const Hero = () => {
           </button>
         </div>
       </div>
+      {/* Gradient fade at bottom for seamless transition */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '220px',
+        background: 'linear-gradient(to bottom, transparent, #0a0a0a)',
+        zIndex: 5,
+        pointerEvents: 'none',
+      }} />
     </section>
   );
 };
