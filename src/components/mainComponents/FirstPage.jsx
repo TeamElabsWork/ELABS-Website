@@ -82,7 +82,7 @@ const FirstPage = ({ prefersReducedMotion = false }) => {
         <div className="hero-media-card">
           <video
             ref={videoRef}
-            src="/InShot.mp4"
+            src="https://ik.imagekit.io/tm5te9cjl/Elabs%20web/InShot.mp4"
             autoPlay
             muted
             loop
