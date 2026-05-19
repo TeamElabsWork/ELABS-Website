@@ -1,170 +1,65 @@
+import { useEffect, useRef } from "react";
 import Particles from "./Particles";
 
 /* ============================
-   DATA
+   DATA  (removed: Mandita, Aneesha, Ambika, Ananya, Harshpreet)
 ============================ */
 const performers = [
-  {
-    name: "Rishikesh Kumar",
-    role: "2405600",
-    image: "/Images/members/rishikesh.jpg",
-  },
-  {
-    name: "Satwik Chandra",
-    role: "2405900",
-    image: "/Images/members/satwik.jpg",
-  },
-  {
-    name: "Rajneesh Roy",
-    role: "2405599",
-    image: "/Images/members/rajneesh.jpg",
-  },
-  {
-    name: "Prajjwal Patel",
-    role: "24155637",
-    image: "/Images/members/prajjwal.jpg",
-  },
-  {
-    name: "Shubham Shah",
-    role: "24155739",
-    image: "/Images/members/shubhan.jpg",
-  },
-  {
-    name: "Vinayak",
-    role: "23051233",
-    image: "/Images/members/vinayak.jpeg",
-  },
-  {
-    name: "Asmit Sahu",
-    role: "23052231",
-    image: "/Images/members/asmit.jpg",
-  },
-  {
-    name: "Swoasti Bhattacharjee",
-    role: "24051821",
-    image: "/Images/members/swoasti.jpg",
-  },
-  {
-    name: "Omm Tripathi",
-    role: "23051606",
-    image: "/Images/members/omm.jpg",
-  },
-  {
-    name: "Saroj Sen",
-    role: "24051429",
-    image: "/Images/members/saroj.jpg",
-  },
-  {
-    name: "Drishti Singh",
-    role: "24156186",
-    image: "/Images/members/drishti.png",
-  },
-  {
-    name: "Niraj Jha",
-    role: "23053838",
-    image: "/Images/members/niraj.jpeg",
-  },
-  {
-    name: "Soham Chatterjee",
-    role: "24051437",
-    image: "/Images/members/soham.jpg",
-  },
-  {
-    name: "Ayub Abdisalan",
-    role: "2428059",
-    image: "/Images/members/ayub.jpg",
-  },
-  {
-    name: "Hamza Patel",
-    role: "2305215",
-    image: "/Images/members/hamza.jpeg",
-  },
-  {
-    name: "Harshpreet Singh Gambhir",
-    role: "23053395",
-    image: "/Images/members/harshpreet.jpg",
-  },
-  {
-    name: "Ananya Yadav",
-    role: "24158039",
-    image: "/Images/members/ananya.jpg",
-  },
-  {
-    name: "Mandita Ghosh",
-    role: "—",
-    image: "/Images/members/mandita.jpeg",
-  },
-  {
-    name: "Aneesha Goswami",
-    role: "24051830",
-    image: "/Images/members/aneesha.png",
-  },
-  {
-    name: "Ambika Kumari",
-    role: "2305681",
-    image: "/Images/members/ambika.jpeg",
-  },
+  { name: "Rishikesh Kumar",      image: "/Images/members/rishikesh.jpg" },
+  { name: "Satwik Chandra",       image: "/Images/members/satwik.jpg" },
+  { name: "Rajneesh Roy",         image: "/Images/members/rajneesh.jpg" },
+  { name: "Prajjwal Patel",       image: "/Images/members/prajjwal.jpg" },
+  { name: "Shubham Shah",         image: "/Images/members/shubhan.jpg" },
+  { name: "Vinayak",              image: "/Images/members/vinayak.jpeg" },
+  { name: "Asmit Sahu",           image: "/Images/members/asmit.jpg" },
+  { name: "Swoasti Bhattacharjee",image: "/Images/members/swoasti.jpg" },
+  { name: "Omm Tripathi",         image: "/Images/members/omm.jpg" },
+  { name: "Saroj Sen",            image: "/Images/members/saroj.jpg" },
+  { name: "Drishti Singh",        image: "/Images/members/drishti.png" },
+  { name: "Niraj Jha",            image: "/Images/members/niraj.jpeg" },
+  { name: "Soham Chatterjee",     image: "/Images/members/soham.jpg" },
+  { name: "Ayub Abdisalan",       image: "/Images/members/ayub.jpg" },
+  { name: "Hamza Patel",          image: "/Images/members/hamza.jpeg" },
 ];
 
 /* ============================
    CARD
 ============================ */
-function SmallMemberCard({ name, role, image }) {
+function MemberCard({ name, image, index }) {
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const delay = index * 60;
+    el.style.animationDelay = `${delay}ms`;
+    el.classList.add("card-pop-in");
+  }, [index]);
+
   return (
     <div
-      className="
-        group
-        w-[220px] h-[360px]
-        rounded-[38px]
-        border border-[#ff9a33]
-        bg-gradient-to-b from-[#ff9a33] via-[#ff7b1a] to-[#1a0b03]
-        shadow-[0_0_18px_rgba(255,154,51,0.35)]
-        flex flex-col items-center pt-8 pb-6
-        transition-all duration-300 ease-out
-        hover:-translate-y-3
-        hover:shadow-[0_0_85px_rgba(255,154,51,1)]
-      "
+      ref={cardRef}
+      className="member-card group"
+      style={{ "--i": index }}
     >
-      {/* AVATAR */}
-      <div
-        className="
-          w-36 h-36
-          rounded-full
-          border-[5px] border-black
-          mb-8
-          overflow-hidden
-          bg-black
-          transition-transform duration-300 ease-out
-          group-hover:scale-110
-        "
-      >
+      {/* Glowing ring on hover */}
+      <div className="card-glow-ring" />
+
+      {/* Photo */}
+      <div className="card-photo-wrap">
         <img
           src={image}
           alt={name}
-          onError={(e) =>
-            (e.currentTarget.src = "/Images/members/default.jpg")
-          }
-          className="w-full h-full object-cover"
+          onError={(e) => (e.currentTarget.src = "/Images/members/default.jpg")}
+          className="card-photo"
           loading="lazy"
         />
+        {/* shimmer overlay */}
+        <div className="card-shimmer" />
       </div>
 
-      {/* NAME */}
-      <p className="text-[14px] font-semibold text-white text-center leading-tight">
-        {name}
-      </p>
-
-      {/* ROLL / ID */}
-      <p className="text-[12px] text-orange-100/80 text-center mt-1">
-        {role}
-      </p>
-
-      {/* STARS */}
-      <div className="mt-auto flex gap-1 text-[13px] text-white">
-        <span>★</span>
-        <span>★</span>
-        <span>★</span>
-      </div>
+      {/* Name */}
+      <p className="card-name">{name}</p>
     </div>
   );
 }
@@ -174,44 +69,240 @@ function SmallMemberCard({ name, role, image }) {
 ============================ */
 export default function TopPerformers() {
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="tp-page">
       <Particles />
 
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6 pt-16 pb-20">
-        {/* HEADING */}
-        <h1 className="text-center text-2xl md:text-3xl font-bold tracking-wider text-[#ff9a33] mb-4">
-          TOP CONTRIBUTORS
-        </h1>
+      <div className="tp-inner">
+        {/* ── SITE LABEL ── */}
+        <p className="tp-site-label">⚡ ELabs Official Website</p>
 
-        {/* QUOTE */}
-        <p className="text-center text-base md:text-lg text-orange-100/90 mb-14 max-w-4xl mx-auto">
-          Hard work is their daily recipe — E Labs members don’t just work,
-          they cook excellence with late nights, sharp minds, and relentless
-          passion. 🔥
+        {/* ── TITLE ── */}
+        <h1 className="tp-title">TOP CONTRIBUTORS</h1>
+
+        {/* ── SUB ── */}
+        <p className="tp-sub">
+          Hard work is their daily recipe — E Labs members don't just work,
+          they cook excellence with late nights, sharp minds, and relentless passion. 🔥
         </p>
 
-        {/* GRID */}
-        <div
-          className="
-            grid
-            grid-cols-2
-            sm:grid-cols-3
-            md:grid-cols-4
-            lg:grid-cols-5
-            gap-x-10 gap-y-14
-            justify-items-center
-          "
-        >
-          {performers.map((member, index) => (
-            <SmallMemberCard
-              key={index}
-              name={member.name}
-              role={member.role}
-              image={member.image}
-            />
+        {/* ── GRID ── */}
+        <div className="tp-grid">
+          {performers.map((m, i) => (
+            <MemberCard key={i} index={i} name={m.name} image={m.image} />
           ))}
         </div>
       </div>
+
+      <style>{`
+        /* ─── PAGE ─── */
+        .tp-page {
+          position: relative;
+          min-height: 100vh;
+          background: #000;
+          color: #fff;
+          overflow: hidden;
+        }
+
+        .tp-inner {
+          position: relative;
+          z-index: 10;
+          max-width: 1600px;
+          margin: 0 auto;
+          padding: 80px 24px 60px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        /* ─── LABEL ─── */
+        .tp-site-label {
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #ff9a33;
+          background: rgba(255,154,51,0.08);
+          border: 1px solid rgba(255,154,51,0.25);
+          padding: 4px 18px;
+          border-radius: 999px;
+          margin-bottom: 18px;
+        }
+
+        /* ─── TITLE ─── */
+        .tp-title {
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 900;
+          letter-spacing: 0.06em;
+          text-align: center;
+          background: linear-gradient(135deg, #ff9a33 0%, #ff6b00 50%, #ff9a33 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: titleSheen 4s ease-in-out infinite;
+          margin-bottom: 12px;
+          line-height: 1.1;
+        }
+
+        @keyframes titleSheen {
+          0%, 100% { background-position: 0% 50%; }
+          50%       { background-position: 100% 50%; }
+        }
+
+        /* ─── SUB ─── */
+        .tp-sub {
+          font-size: clamp(0.85rem, 1.5vw, 1rem);
+          color: rgba(255,220,170,0.85);
+          text-align: center;
+          max-width: 700px;
+          margin-bottom: 48px;
+          line-height: 1.7;
+        }
+
+        /* ─── GRID ─── */
+        .tp-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 18px;
+          width: 100%;
+          justify-items: center;
+        }
+
+        @media (max-width: 1100px) { .tp-grid { grid-template-columns: repeat(5, 1fr); } }
+        @media (max-width: 860px)  { .tp-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 640px)  { .tp-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 420px)  { .tp-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* ─── CARD ─── */
+        .member-card {
+          position: relative;
+          width: 100%;
+          max-width: 150px;
+          aspect-ratio: 1 / 1;
+          border-radius: 18px;
+          overflow: hidden;
+          cursor: pointer;
+          opacity: 0;
+          transform: translateY(30px) scale(0.88);
+          transition:
+            transform 0.35s cubic-bezier(.34,1.56,.64,1),
+            box-shadow 0.35s ease;
+          box-shadow: 0 0 0 1px rgba(255,154,51,0.2),
+                      0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        .card-pop-in {
+          animation: popIn 0.55s cubic-bezier(.34,1.56,.64,1) forwards;
+        }
+
+        @keyframes popIn {
+          0%   { opacity: 0; transform: translateY(30px) scale(0.85); }
+          100% { opacity: 1; transform: translateY(0)    scale(1); }
+        }
+
+        /* hover lift */
+        .member-card:hover {
+          transform: translateY(-8px) scale(1.06) rotate(-1deg);
+          box-shadow:
+            0 0 0 2px #ff9a33,
+            0 0 40px rgba(255,154,51,0.7),
+            0 20px 40px rgba(0,0,0,0.7);
+          z-index: 10;
+        }
+
+        /* ─── GLOW RING (revealed on hover) ─── */
+        .card-glow-ring {
+          position: absolute;
+          inset: -3px;
+          border-radius: 20px;
+          background: conic-gradient(from var(--angle, 0deg),
+            #ff6b00, #ff9a33, #ffcc00, #ff9a33, #ff6b00);
+          opacity: 0;
+          transition: opacity 0.3s;
+          z-index: 0;
+          animation: rotateConic 3s linear infinite;
+        }
+
+        .member-card:hover .card-glow-ring { opacity: 1; }
+
+        @property --angle {
+          syntax: "<angle>";
+          inherits: false;
+          initial-value: 0deg;
+        }
+
+        @keyframes rotateConic {
+          to { --angle: 360deg; }
+        }
+
+        /* ─── PHOTO WRAPPER ─── */
+        .card-photo-wrap {
+          position: absolute;
+          inset: 2px;
+          border-radius: 16px;
+          overflow: hidden;
+          z-index: 1;
+          background: #111;
+        }
+
+        .card-photo {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+          transition: transform 0.4s ease;
+        }
+
+        .member-card:hover .card-photo {
+          transform: scale(1.1);
+        }
+
+        /* shimmer sweep on hover */
+        .card-shimmer {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            120deg,
+            transparent 30%,
+            rgba(255,255,255,0.12) 50%,
+            transparent 70%
+          );
+          background-size: 200% 100%;
+          background-position: -100% 0;
+          transition: background-position 0.6s ease;
+        }
+
+        .member-card:hover .card-shimmer {
+          background-position: 200% 0;
+        }
+
+        /* ─── BOTTOM NAME OVERLAY ─── */
+        .card-name {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 3;
+          padding: 22px 6px 7px;
+          background: linear-gradient(to top, rgba(0,0,0,0.88) 60%, transparent);
+          font-size: 0.67rem;
+          font-weight: 700;
+          text-align: center;
+          color: #fff;
+          letter-spacing: 0.03em;
+          line-height: 1.3;
+          transform: translateY(4px);
+          opacity: 0.85;
+          transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .member-card:hover .card-name {
+          opacity: 1;
+          transform: translateY(0);
+          color: #ffcc88;
+        }
+      `}</style>
     </div>
   );
 }
