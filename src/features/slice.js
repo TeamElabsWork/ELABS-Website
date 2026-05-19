@@ -369,13 +369,14 @@ const initialState = {
     {
       domain: "MARKETING & PR",
       img: "/Images/Logo/Marketing.png",
-      sec: "iot",
-      resUrls: [
-        {
-          name: "",
-          url: "",
-        },
-      ],
+      sec: "marketing",
+      resUrls: [{ name: "", url: "" }],
+    },
+    {
+      domain: "ENTREPRENEUR / STARTUP",
+      img: "/Images/Logo/Marketing.png",
+      sec: "entrepreneurship",
+      resUrls: [{ name: "", url: "" }],
     },
     {
       domain: "CLOUD COMPUTING (NEW)",

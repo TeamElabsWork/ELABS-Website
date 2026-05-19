@@ -49,6 +49,9 @@ const Data = React.lazy(() => import("./components/mainComponents/data_analytics
 const EventRegistration = React.lazy(() => import("./components/subComponents/EventRegistration.jsx"));
 const EventDetails = React.lazy(() => import("./components/subComponents/EventDetails.jsx"));
 const SubmissionSuccess = React.lazy(() => import("./components/subComponents/SubmissionSuccess.jsx"));
+const MarketingPR = React.lazy(() => import("./components/mainComponents/MarketingPR.jsx"));
+const ContentWriting = React.lazy(() => import("./components/mainComponents/ContentWriting.jsx"));
+const Entrepreneurship = React.lazy(() => import("./components/mainComponents/Entrepreneurship.jsx"));
 
 const route = createBrowserRouter(
   createRoutesFromElements(
@@ -88,11 +91,16 @@ const route = createBrowserRouter(
       <Route path="IoTEmbedded" element={<IoTEmbedded />}></Route>
       <Route path="cyber" element={<Cyber />}></Route>
       <Route path="gamedev" element={<GameDev />}></Route>
+      <Route path="graphic" element={<GraphicDesign />}></Route>
+      <Route path="cloud" element={<CloudComputing />}></Route>
       <Route path="top-performers" element={<TopPerformers />} />
 
       <Route path="recruitment" element={<Recruitment />}></Route>
       <Route path="recruitment/:domainId" element={<DomainDetail />}></Route>
       <Route path="initiatives/:id" element={<InitiativeDetail />}></Route>
+      <Route path="marketing" element={<MarketingPR />}></Route>
+      <Route path="content-writing" element={<ContentWriting />}></Route>
+      <Route path="entrepreneurship" element={<Entrepreneurship />}></Route>
       <Route
         path="*"
         element={
