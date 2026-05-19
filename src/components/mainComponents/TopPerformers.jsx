@@ -169,6 +169,8 @@ export default function TopPerformers() {
 
 /* fuzzy title wrapper — clips overflow on small screens */
 .tp-fuzzy-wrap{display:flex;justify-content:center;width:100%;max-width:100%;overflow:hidden;margin-bottom:10px}
+/* force the canvas itself to never exceed viewport */
+.tp-fuzzy-wrap canvas{max-width:100% !important;height:auto !important}
 
 .tp-badge{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#ff9a33;background:rgba(255,154,51,.08);border:1px solid rgba(255,154,51,.25);padding:4px 18px;border-radius:999px;margin-bottom:14px}
 
@@ -194,8 +196,8 @@ export default function TopPerformers() {
 @media(max-width:900px){.tp-grid-6{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:600px){.tp-grid-6{grid-template-columns:repeat(3,1fr)}}
 
-/* blaze — 2 cards centered */
-.tp-grid-blaze{display:flex;gap:24px;justify-content:center;width:100%}
+/* blaze — 2 cards centered, responsive */
+.tp-grid-blaze{display:flex;gap:clamp(12px,3vw,24px);justify-content:center;width:100%;flex-wrap:wrap}
 
 /* card pop animation */
 .tp-card-pop{animation:tpPop .55s cubic-bezier(.34,1.56,.64,1) forwards}
@@ -209,8 +211,8 @@ export default function TopPerformers() {
 .tp-big-card{position:relative;width:100%;max-width:190px;aspect-ratio:1/1;border-radius:20px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px) scale(.84);transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;border:1.5px solid rgba(255,154,51,.5);background:linear-gradient(145deg,#1a0d00,#0d0d0d 60%,#1a0800);box-shadow:0 0 14px rgba(255,130,30,.15),0 6px 24px rgba(0,0,0,.7)}
 .tp-big-card:hover{transform:translateY(-10px) scale(1.06) rotate(-1deg);border-color:rgba(255,154,51,.95);box-shadow:0 0 0 1.5px #ff9a33,0 0 50px rgba(255,154,51,.65),0 24px 48px rgba(0,0,0,.75);z-index:10}
 
-/* blaze card — bigger, centered pair */
-.tp-blaze-card{position:relative;width:220px;height:220px;border-radius:22px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px) scale(.84);transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;border:1.5px solid rgba(255,154,51,.5);background:linear-gradient(145deg,#1a0d00,#0d0d0d 60%,#1a0800);box-shadow:0 0 14px rgba(255,130,30,.15),0 6px 24px rgba(0,0,0,.7);flex-shrink:0}
+/* blaze card — responsive, centered pair */
+.tp-blaze-card{position:relative;width:clamp(130px,38vw,220px);height:clamp(130px,38vw,220px);border-radius:22px;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px) scale(.84);transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;border:1.5px solid rgba(255,154,51,.5);background:linear-gradient(145deg,#1a0d00,#0d0d0d 60%,#1a0800);box-shadow:0 0 14px rgba(255,130,30,.15),0 6px 24px rgba(0,0,0,.7);flex-shrink:0}
 .tp-blaze-card:hover{transform:translateY(-10px) scale(1.06) rotate(-1deg);border-color:rgba(255,154,51,.95);box-shadow:0 0 0 1.5px #ff9a33,0 0 50px rgba(255,154,51,.65),0 24px 48px rgba(0,0,0,.75);z-index:10}
 
 /* glow ring */
