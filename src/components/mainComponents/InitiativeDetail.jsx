@@ -45,12 +45,12 @@ const initiativesData = {
     color: "from-orange-500 to-black",
     shadow: "shadow-orange-500/50"
   },
-  "blade-bit": {
-    title: "Blade Bit",
+  "blaze-bit": {
+    title: "Blaze Bit",
     tagline: "Your Ultimate Study Companion",
     description: "Your ultimate study app offering a comprehensive suite of tools designed to maximize your learning efficiency.",
-    longDescription: "Blade Bit helps students organize their study sessions, track their progress, and stay focused. Featuring built-in Pomodoro timers, flashcard generation, and collaborative study rooms, it's the all-in-one platform for academic success.",
-    image: "https://placehold.co/1200x600/121212/f97316?text=Blade+Bit+Hero",
+    longDescription: "Blaze Bit helps students organize their study sessions, track their progress, and stay focused. Featuring built-in Pomodoro timers, flashcard generation, and collaborative study rooms, it's the all-in-one platform for academic success.",
+    image: "https://placehold.co/1200x600/121212/f97316?text=Blaze+Bit+Hero",
     features: ["Pomodoro Timer", "Flashcard Generator", "Study Rooms", "Progress Analytics"],
     color: "from-orange-600 to-orange-800",
     shadow: "shadow-orange-600/50"

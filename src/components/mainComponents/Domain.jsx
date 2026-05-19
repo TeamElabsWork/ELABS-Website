@@ -80,7 +80,20 @@ function Domain() {
                   return;
                 }
 
-                
+                if (domain.includes("marketing") || domain.includes("pr")) {
+                  navigate("/marketing");
+                  return;
+                }
+
+                if (domain.includes("content") || domain.includes("writing")) {
+                  navigate("/content-writing");
+                  return;
+                }
+
+                if (domain.includes("entrepreneur") || domain.includes("startup")) {
+                  navigate("/entrepreneurship");
+                  return;
+                }
 
               }}
               className="flex hover:scale-105 transition-all ease-in-out duration-300 w-full sm:w-[45%] md:w-[30%] max-w-[350px] cursor-pointer"

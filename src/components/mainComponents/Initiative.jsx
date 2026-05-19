@@ -39,10 +39,10 @@ const initiativesData = [
     color: "from-orange-500 to-black"
   },
   {
-    id: "blade-bit",
-    title: "Blade Bit",
+    id: "blaze-bit",
+    title: "Blaze Bit",
     description: "Your ultimate study app offering a comprehensive suite of tools designed to maximize your learning efficiency.",
-    image: "https://placehold.co/600x400/000000/f97316?text=Blade+Bit",
+    image: "https://placehold.co/600x400/000000/f97316?text=Blaze+Bit",
     color: "from-orange-600 to-orange-800"
   },
   {

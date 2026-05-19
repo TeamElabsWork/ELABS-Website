@@ -358,24 +358,20 @@ const initialState = {
     {
       domain: "CONTENT WRITING",
       img: "/Images/Logo/ContentWriting.png",
-      sec: "iot",
-      resUrls: [
-        {
-          name: "",
-          url: "",
-        },
-      ],
+      sec: "content-writing",
+      resUrls: [{ name: "", url: "" }],
     },
     {
       domain: "MARKETING & PR",
       img: "/Images/Logo/Marketing.png",
-      sec: "iot",
-      resUrls: [
-        {
-          name: "",
-          url: "",
-        },
-      ],
+      sec: "marketing",
+      resUrls: [{ name: "", url: "" }],
+    },
+    {
+      domain: "ENTREPRENEUR / STARTUP",
+      img: "/Images/Logo/Marketing.png",
+      sec: "entrepreneurship",
+      resUrls: [{ name: "", url: "" }],
     },
     {
       domain: "CLOUD COMPUTING (NEW)",
