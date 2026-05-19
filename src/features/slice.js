@@ -358,13 +358,8 @@ const initialState = {
     {
       domain: "CONTENT WRITING",
       img: "/Images/Logo/ContentWriting.png",
-      sec: "iot",
-      resUrls: [
-        {
-          name: "",
-          url: "",
-        },
-      ],
+      sec: "content-writing",
+      resUrls: [{ name: "", url: "" }],
     },
     {
       domain: "MARKETING & PR",
