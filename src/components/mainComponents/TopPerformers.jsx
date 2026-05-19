@@ -118,7 +118,7 @@ export default function TopPerformers() {
         <div className="tp-grid-6">{kiitoMembers.map((m, i) => <Card key={i} index={i} {...m} big />)}</div>
 
         {/* ── BLAZE BIT ── */}
-        <SectionBlock badge="📦 Project" title="BLAZE BIT" desc="Smart study tools built by passionate engineers." link="/initiatives/blaze-bit" />
+        <SectionBlock badge="📦 Project" title="BLAZE BIT APP" desc="Smart study tools built by passionate engineers." link="/initiatives/blaze-bit" />
         <div className="tp-grid-blaze">{blazeMembers.map((m, i) => <Card key={i} index={i} {...m} blaze />)}</div>
 
         {/* ── ELABS WEBSITE ── */}
@@ -196,8 +196,8 @@ export default function TopPerformers() {
 @media(max-width:900px){.tp-grid-6{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:600px){.tp-grid-6{grid-template-columns:repeat(3,1fr)}}
 
-/* blaze — 2 cards centered, responsive */
-.tp-grid-blaze{display:flex;gap:clamp(12px,3vw,24px);justify-content:center;width:100%;flex-wrap:wrap}
+/* blaze — 2 cards always side by side, responsive sizing */
+.tp-grid-blaze{display:flex;gap:clamp(12px,3vw,24px);justify-content:center;width:100%;flex-wrap:nowrap}
 
 /* card pop animation */
 .tp-card-pop{animation:tpPop .55s cubic-bezier(.34,1.56,.64,1) forwards}
