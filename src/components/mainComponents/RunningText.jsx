@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { supabase } from "../../lib/supabase-client";
 
-// Helper component to render a single, clean circular leader card
 function LeaderCard({ name, photoUrl }) {
   if (!name) return null;
 
-  // Split name for two-line design
   const parts = name.trim().split(" ");
   const firstName = parts[0];
   const lastName = parts.slice(1).join(" ");
 
-  // Generate dynamic initial avatar fallback if real photo is missing
   const initialsUrl = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=ff6a00&color=fff&size=200`;
-  const finalPhotoUrl = photoUrl ? photoUrl : initialsUrl;
+  const finalPhotoUrl = photoUrl || initialsUrl;
 
   return (
     <div style={leaderCardStyle}>
@@ -29,93 +27,59 @@ export default function LeadHero({ domain }) {
   const [asstLeadsList, setAsstLeadsList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const DOMAIN_MAP = {
-    webdev: "Web Development",
-    "web development": "Web Development",
-    "iot&embedded": "IoT & Embedded Systems",
-    "iot & embedded": "IoT & Embedded Systems",
-    android: "Android Development",
-    "android development": "Android Development",
-    "coud computing": "Cloud Computing",
-    "cloud computing": "Cloud Computing",
-    "ai/ml": "AI/ML",
-    "cyber security": "Cyber Security",
-    "data analytics": "Data Analytics",
-    java: "Java",
-    "game development": "Game Development",
-    gamedev: "Game Development",
-    "graphic designing": "Graphics Designing & UI/UX",
-    "ui/ux": "Graphics Designing & UI/UX",
-    "graphics designing": "Graphics Designing & UI/UX",
-    photofgraphy: "Photography & Video",
-    photography: "Photography & Video",
-    "vido editing": "Photography & Video",
-    "video editing": "Photography & Video",
-    "content writing": "Content Writing",
-    "marketing and pr": "Marketing PR & Event Management",
-    "event management": "Marketing PR & Event Management",
-    marketing: "Marketing PR & Event Management",
-  };
+  const normalize = (value) =>
+    value?.toLowerCase().trim().replace(/\s+/g, "_");
 
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
+    const fetchLeads = async () => {
+      try {
+        setLoading(true);
 
-    fetch("http://127.0.0.1:5000/api/leadership")
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
+        // Fetch domains
+        const { data: domainsData, error: domainError } = await supabase
+          .from("domains")
+          .select("*");
 
-        const normalizedTarget = DOMAIN_MAP[domain?.toLowerCase().trim()] || domain;
+        if (domainError) throw domainError;
 
-        // Find the matching department from your Excel data
-        const matchedDept = data.find((dept) => {
-          if (!dept.domain) return false;
-          const cleanExcelDomain = dept.domain.toLowerCase().replace("domain", "").trim();
-          const mappedExcelDomain = DOMAIN_MAP[cleanExcelDomain] || cleanExcelDomain;
-          return (
-            mappedExcelDomain.toLowerCase().includes(normalizedTarget.toLowerCase()) ||
-            normalizedTarget.toLowerCase().includes(cleanExcelDomain)
-          );
-        });
+        const matchedDomain = domainsData.find(
+          (d) => normalize(d.name) === normalize(domain)
+        );
 
-        if (matchedDept) {
-          // --- DYNAMIC DATA PROCESSING ---
-          // Scan the API keys for all valid leads and assistant leads
-          const leads = [];
-          const asstLeads = [];
-
-          Object.keys(matchedDept).forEach((key) => {
-            // Check for Leads (e.g., lead_1, lead_2)
-            if (key.startsWith("lead_") && !key.endsWith("_ph") && !key.endsWith("_photo") && matchedDept[key]) {
-              const photoKey = `${key}_photo`;
-              leads.push({
-                name: matchedDept[key],
-                photo: matchedDept[photoKey] || null,
-              });
-            }
-            // Check for Assistant Leads (e.g., asst_lead_1, asst_lead_2)
-            if (key.startsWith("asst_lead_") && !key.endsWith("_ph") && !key.endsWith("_photo") && matchedDept[key]) {
-              const photoKey = `${key}_photo`;
-              asstLeads.push({
-                name: matchedDept[key],
-                photo: matchedDept[photoKey] || null,
-              });
-            }
-          });
-
-          setLeadsList(leads);
-          setAsstLeadsList(asstLeads);
+        if (!matchedDomain) {
+          setLeadsList([]);
+          setAsstLeadsList([]);
+          return;
         }
-      })
-      .catch((err) => console.error("Error fetching leadership:", err))
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
 
-    return () => {
-      cancelled = true;
+        // Fetch leads for that domain
+        const { data: leadsData, error: leadsError } = await supabase
+          .from("leads")
+          .select("*")
+          .eq("domain_id", matchedDomain.id);
+
+        if (leadsError) throw leadsError;
+
+        const leads = leadsData.filter(
+          (lead) => normalize(lead.designation) === "lead"
+        );
+
+        const assistantLeads = leadsData.filter(
+          (lead) => normalize(lead.designation) === "asst_lead"
+        );
+
+        setLeadsList(leads);
+        setAsstLeadsList(assistantLeads);
+      } catch (err) {
+        console.error("Error fetching leadership:", err);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    if (domain) {
+      fetchLeads();
+    }
   }, [domain]);
 
   if (loading) return null;
@@ -124,26 +88,28 @@ export default function LeadHero({ domain }) {
   return (
     <section style={wrapperStyle}>
       <div style={containerStyle}>
-        
-        {/* LEADS GROUP */}
+        {/* DOMAIN LEADS */}
         {leadsList.length > 0 && (
           <div style={groupStyle}>
-            {/* Fashionable centered section label */}
             <div style={labelContainerStyle}>
               <div style={labelLineStyle} />
               <span style={labelTextStyle}>DOMAIN LEADS</span>
               <div style={labelLineStyle} />
             </div>
-            {/* Center the cards in a clean grid */}
+
             <div style={cardsCentererStyle}>
-              {leadsList.map((lead, index) => (
-                <LeaderCard key={`lead-${index}`} name={lead.name} photoUrl={lead.photo} />
+              {leadsList.map((lead) => (
+                <LeaderCard
+                  key={lead.id}
+                  name={lead.name}
+                  photoUrl={lead.photo_url}
+                />
               ))}
             </div>
           </div>
         )}
 
-        {/* ASSISTANT LEADS GROUP */}
+        {/* ASSISTANT LEADS */}
         {asstLeadsList.length > 0 && (
           <div style={groupStyle}>
             <div style={labelContainerStyle}>
@@ -151,24 +117,28 @@ export default function LeadHero({ domain }) {
               <span style={labelTextStyle}>ASSISTANT LEADS</span>
               <div style={labelLineStyle} />
             </div>
+
             <div style={cardsCentererStyle}>
-              {asstLeadsList.map((asst, index) => (
-                <LeaderCard key={`asst-${index}`} name={asst.name} photoUrl={asst.photo} />
+              {asstLeadsList.map((lead) => (
+                <LeaderCard
+                  key={lead.id}
+                  name={lead.name}
+                  photoUrl={lead.photo_url}
+                />
               ))}
             </div>
           </div>
         )}
-
       </div>
     </section>
   );
 }
 
-// --- NEW FASHIONABLE STYLES ---
+// Styles
 
 const wrapperStyle = {
   width: "100%",
-  background: "linear-gradient(180deg, #000 0%, #0c0c0c 100%)", // Black with subtle gradient
+  background: "linear-gradient(180deg, #000 0%, #0c0c0c 100%)",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -180,15 +150,14 @@ const wrapperStyle = {
 
 const containerStyle = {
   width: "100%",
-  maxWidth: "1100px", // Pulls them slightly inward for better focus
+  maxWidth: "1100px",
   margin: "0 auto",
   display: "flex",
-  flexDirection: "column", // Stack groups vertically
-  gap: "60px", // Space between Leads and Asst Leads
+  flexDirection: "column",
+  gap: "60px",
   padding: "0 2rem",
 };
 
-// Section grouping styles
 const groupStyle = {
   width: "100%",
   display: "flex",
@@ -196,7 +165,6 @@ const groupStyle = {
   alignItems: "center",
 };
 
-// Label/Header styles (Fashionable centered label with lines)
 const labelContainerStyle = {
   display: "flex",
   alignItems: "center",
@@ -209,51 +177,47 @@ const labelContainerStyle = {
 const labelLineStyle = {
   flex: 1,
   height: "1px",
-  background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,106,0,0.6) 50%, rgba(255,255,255,0) 100%)", // Glowing orange line
+  background:
+    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,106,0,0.6) 50%, rgba(255,255,255,0) 100%)",
 };
 
 const labelTextStyle = {
   fontSize: "0.85rem",
   fontWeight: 800,
   textTransform: "uppercase",
-  letterSpacing: "0.4em", // High letter spacing for luxury look
-  color: "#ff6a00", // Bright ELabs Orange
+  letterSpacing: "0.4em",
+  color: "#ff6a00",
   whiteSpace: "nowrap",
 };
 
 const cardsCentererStyle = {
   display: "flex",
-  justifyContent: "center", // Center all cards in this group
-  flexWrap: "wrap", // If you have 3+ leads, they wrap cleanly to next line
-  gap: "5rem", // Generous fashionable space between leaders
+  justifyContent: "center",
+  flexWrap: "wrap",
+  gap: "5rem",
   width: "100%",
 };
-
-// --- SINGLE LEADER CARD STYLES ---
 
 const leaderCardStyle = {
   textAlign: "center",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  position: "relative",
-  zIndex: 10,
 };
 
 const leaderImageStyle = {
-  width: "220px", // Reduced size for fashion/balance
+  width: "220px",
   height: "220px",
-  borderRadius: "50%", // Circular photos
+  borderRadius: "50%",
   objectFit: "cover",
-  // Sleek ELabs Orange glow outline
   border: "6px solid #ff6a00",
-  filter: "drop-shadow(0 10px 30px rgba(255,106,0,0.5))", // Glowing orange shadow below
+  filter: "drop-shadow(0 10px 30px rgba(255,106,0,0.5))",
   marginBottom: "2rem",
 };
 
 const nameTagStyle = {
   padding: "0.8rem 2.2rem",
-  background: "linear-gradient(90deg, #ff6a00, #ff9500)", // ELabs gradient
+  background: "linear-gradient(90deg, #ff6a00, #ff9500)",
   borderRadius: "999px",
   boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
 };
@@ -261,8 +225,8 @@ const nameTagStyle = {
 const nameStyle = {
   display: "block",
   fontWeight: 700,
-  fontSize: "1.0rem",
+  fontSize: "1rem",
   textTransform: "uppercase",
-  color: "#000", // High contrast black text on orange
+  color: "#000",
   letterSpacing: "0.05em",
 };

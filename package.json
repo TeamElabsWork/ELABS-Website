@@ -17,6 +17,7 @@
     "@heroui/react": "^2.7.4",
     "@react-three/fiber": "^8.18.0",
     "@reduxjs/toolkit": "^2.2.5",
+    "@supabase/supabase-js": "^2.106.0",
     "axios": "^1.9.0",
     "classnames": "^2.5.1",
     "dotenv": "^16.5.0",

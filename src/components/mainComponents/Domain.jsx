@@ -49,7 +49,7 @@ function Domain() {
                   return;
                 }
 
-                if (domain.includes("photograpgy")) {
+                if (domain.includes("photography")) {
                   navigate("/photography");
                   return;
                 }
