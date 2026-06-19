@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase-client";
+import { fallbackLeads } from "../../constants/fallbackData";
 
 function LeaderCard({ name, photoUrl }) {
   if (!name) return null;
@@ -40,7 +41,7 @@ export default function LeadHero({ domain }) {
           .from("domains")
           .select("*");
 
-        if (domainError) throw domainError;
+        if (domainError || !domainsData) throw domainError || new Error("Empty domains data");
 
         const matchedDomain = domainsData.find(
           (d) => normalize(d.name) === normalize(domain)
@@ -58,7 +59,7 @@ export default function LeadHero({ domain }) {
           .select("*")
           .eq("domain_id", matchedDomain.id);
 
-        if (leadsError) throw leadsError;
+        if (leadsError || !leadsData) throw leadsError || new Error("Empty leads data");
 
         const leads = leadsData.filter(
           (lead) => normalize(lead.designation) === "lead"
@@ -71,7 +72,19 @@ export default function LeadHero({ domain }) {
         setLeadsList(leads);
         setAsstLeadsList(assistantLeads);
       } catch (err) {
-        console.error("Error fetching leadership:", err);
+        console.warn("Supabase fetch failed in RunningText.jsx, using fallback mock data:", err.message);
+        
+        // Filter from fallbackLeads
+        const leads = fallbackLeads.filter(
+          (lead) => normalize(lead.domain) === normalize(domain) && normalize(lead.designation) === "lead"
+        );
+
+        const assistantLeads = fallbackLeads.filter(
+          (lead) => normalize(lead.domain) === normalize(domain) && normalize(lead.designation) === "asst_lead"
+        );
+
+        setLeadsList(leads);
+        setAsstLeadsList(assistantLeads);
       } finally {
         setLoading(false);
       }
@@ -138,7 +151,7 @@ export default function LeadHero({ domain }) {
 
 const wrapperStyle = {
   width: "100%",
-  background: "linear-gradient(180deg, #000 0%, #0c0c0c 100%)",
+  background: "transparent",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",

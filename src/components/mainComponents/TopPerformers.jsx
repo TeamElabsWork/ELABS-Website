@@ -264,6 +264,44 @@ export default function TopPerformers() {
 .tp-init-circle img{width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(255,154,51,.5);object-fit:cover;transition:border-color .3s,box-shadow .3s}
 .tp-init-circle:hover img{border-color:#ff9a33;box-shadow:0 0 20px rgba(255,154,51,.5)}
 .tp-init-circle span{font-size:.65rem;font-weight:600;color:rgba(255,220,170,.85);letter-spacing:.04em;text-align:center}
+
+/* ---- Light Theme (Root .dark class) overrides ---- */
+.dark .tp-page {
+  background: #ffd4b3;
+  color: #000;
+}
+.dark .tp-main-sub, .dark .tp-section-desc {
+  color: rgba(0, 0, 0, 0.7);
+}
+.dark .tp-lead-card {
+  border-color: rgba(247, 148, 29, 0.4);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.dark .tp-lead-desc {
+  color: rgba(0, 0, 0, 0.8);
+}
+.dark .tp-lead-role {
+  color: #fff;
+}
+.dark .tp-init-circle span {
+  color: rgba(0, 0, 0, 0.8);
+}
+.dark .tp-sm-card, .dark .tp-big-card, .dark .tp-blaze-card {
+  border-color: rgba(247, 148, 29, 0.4);
+  background: linear-gradient(145deg, #fff, #ffeedd 60%, #ffd4b3);
+  box-shadow: 0 0 10px rgba(255, 130, 30, 0.08), 0 4px 16px rgba(0,0,0,0.15);
+}
+.dark .tp-sm-name, .dark .tp-big-name, .dark .tp-blaze-name {
+  background: linear-gradient(to top, rgba(255,255,255,0.95) 60%, transparent);
+  color: #000;
+}
+.dark .tp-sm-card:hover .tp-sm-name, .dark .tp-big-card:hover .tp-big-name, .dark .tp-blaze-card:hover .tp-blaze-name {
+  color: #e65c00;
+}
+.dark .tp-sm-photo-wrap, .dark .tp-big-photo-wrap, .dark .tp-blaze-photo-wrap {
+  background: #ffeedd;
+}
       `}</style>
     </div>
   );

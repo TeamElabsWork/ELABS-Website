@@ -86,6 +86,7 @@ export default function MemberFlipCard({ member }) {
           className="absolute inset-0 rounded-xl p-6 flex flex-col items-center justify-center gap-4"
           style={{
             backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
             background:
               "linear-gradient(180deg,#FF6A00 0%,#FF8C1A 25%,#C2410C 60%,#000 100%)",
             boxShadow:
@@ -123,6 +124,7 @@ export default function MemberFlipCard({ member }) {
           className="absolute inset-0 rounded-xl p-6 flex flex-col items-center justify-between"
           style={{
             backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
             background: "linear-gradient(180deg,#7C2D12 0%,#000 100%)",
             boxShadow:

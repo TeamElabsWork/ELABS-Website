@@ -282,14 +282,18 @@
 }
 
 .dp-tool-card {
-  background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(255, 140, 66, 0.08));
+  background: rgba(13, 13, 13, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   padding: 2.2rem 1.8rem;
-  border-radius: 18px;
-  border: 1px solid var(--dp-border);
-  transition: all 0.3s ease;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 107, 0, 0.15) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -302,37 +306,39 @@
   position: absolute;
   width: 220px;
   height: 220px;
-  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.5) 0%, rgba(255, 200, 0, 0.35) 15%, rgba(255, 180, 0, 0.2) 30%, transparent 60%);
+  background: radial-gradient(circle at center, rgba(255, 107, 0, 0.15) 0%, transparent 60%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
   z-index: 2;
-  filter: blur(28px);
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  left: var(--glow-x, 50%);
-  top: var(--glow-y, 50%);
 }
 
 .dp-tool-card:hover::after { opacity: 1; }
 
 .dp-tool-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 30px var(--dp-glow);
-  border-color: var(--dp-primary);
+  transform: translateY(-8px);
+  box-shadow: 
+    0 15px 35px rgba(255, 107, 0, 0.2),
+    0 0 30px rgba(255, 107, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 107, 0, 0.5) !important;
 }
 
 .dp-tool-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
   display: block;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 3;
   line-height: 1;
 }
 
 .dp-tool-card:hover .dp-tool-icon {
-  transform: scale(1.35);
+  transform: scale(1.2) rotate(5deg);
 }
 
 .dp-tool-card h4 {
@@ -385,21 +391,27 @@
 }
 
 .dp-stat-card {
-  background: var(--dp-glow-soft);
+  background: rgba(13, 13, 13, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   padding: 2.2rem 1.5rem;
-  border-radius: 18px;
+  border-radius: 20px;
   text-align: center;
-  border: 1px solid var(--dp-border);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.08);
+  border: 1px solid rgba(255, 107, 0, 0.15) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
   cursor: default;
 }
 
 .dp-stat-card:hover {
-  background: rgba(255, 107, 0, 0.12);
-  transform: scale(1.05);
-  border-color: var(--dp-primary);
-  box-shadow: 0 8px 30px var(--dp-glow);
+  background: rgba(255, 107, 0, 0.05) !important;
+  transform: translateY(-5px);
+  border-color: rgba(255, 107, 0, 0.4) !important;
+  box-shadow: 
+    0 12px 30px rgba(255, 107, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 .dp-stat-number {
@@ -410,11 +422,11 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.7rem;
-  transition: font-size 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dp-stat-card:hover .dp-stat-number {
-  font-size: 3.6rem;
+  transform: scale(1.1);
 }
 
 .dp-stat-card h4 {
@@ -435,10 +447,14 @@
   margin: 0 auto;
   text-align: center;
   padding: 3rem 2.5rem;
-  background: var(--dp-glow-soft);
-  border-radius: 20px;
-  border: 1px solid var(--dp-border);
-  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.08);
+  background: rgba(13, 13, 13, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 107, 0, 0.15) !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 .dp-impact-box h3 {
@@ -546,6 +562,66 @@
   .dp-hero-ctas { flex-direction: column; align-items: center; }
   .dp-section { padding: 4rem 5%; }
   .dp-section-title { font-size: 2.2rem; }
+}
+
+/* ---- Light Theme (Root .dark class) variables & style overrides ---- */
+.dark {
+  --dp-bg-dark: #ffd4b3;
+  --dp-bg-card: rgba(255, 255, 255, 0.7);
+  --dp-text-light: #000000;
+  --dp-text-gray: #222222;
+  --dp-glow: rgba(255, 107, 0, 0.35);
+  --dp-glow-soft: rgba(255, 107, 0, 0.05);
+  --dp-border: rgba(255, 107, 0, 0.35);
+}
+
+.dark .dp-hero-fade {
+  background: linear-gradient(to bottom, transparent, #ffd4b3) !important;
+}
+
+.dark .dp-section-bg {
+  background: linear-gradient(to bottom, transparent, rgba(255, 212, 179, 0.97) 120px) !important;
+}
+
+.dark .dp-tool-card {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(255, 107, 0, 0.3) !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark .dp-tool-card:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(255, 107, 0, 0.6) !important;
+  box-shadow: 
+    0 15px 35px rgba(255, 107, 0, 0.15),
+    0 0 30px rgba(255, 107, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .dp-stat-card {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(255, 107, 0, 0.3) !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark .dp-stat-card:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(255, 107, 0, 0.5) !important;
+  box-shadow: 
+    0 12px 30px rgba(255, 107, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .dp-impact-box {
+  background: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(255, 107, 0, 0.3) !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
 }
 
 @media (max-width: 480px) {

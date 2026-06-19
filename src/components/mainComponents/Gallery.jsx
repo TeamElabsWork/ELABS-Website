@@ -58,7 +58,7 @@ function Gallery() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 dark:from-[#ffd4b3] dark:via-[#ffeedd] dark:to-[#ffccaa] relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -76,7 +76,7 @@ function Gallery() {
           </h1>
 
           {/* Animated Tagline */}
-          <div className="text-gray-400 text-lg max-w-2xl mx-auto h-7 flex items-center justify-center">
+          <div className="text-gray-400 dark:text-gray-800 text-lg max-w-2xl mx-auto h-7 flex items-center justify-center">
             <AnimatePresence mode="wait">
               {showElabs ? (
                 <motion.p

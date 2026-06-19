@@ -25,8 +25,11 @@ function Layout() {
 
         <main className="pt-24 flex-grow">
           <Suspense fallback={
-            <div className="h-screen flex items-center justify-center text-2xl font-bold text-gray-500">
-              Loading...
+            <div className="w-full h-[70vh] flex flex-col items-center justify-center transition-colors duration-300">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500 mb-4" />
+              <p className="text-orange-500/80 font-bold tracking-widest text-sm uppercase animate-pulse">
+                Loading...
+              </p>
             </div>
           }>
             <Outlet />

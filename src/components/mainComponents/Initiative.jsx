@@ -56,7 +56,7 @@ const initiativesData = [
 
 const Initiative = () => {
   return (
-    <section id="initiatives" className="py-20 w-full overflow-x-hidden overflow-y-visible relative bg-[#0a0a0a]">
+    <section id="initiatives" className="py-20 w-full overflow-x-hidden overflow-y-visible relative bg-[#0a0a0a] dark:bg-[#ffedde]">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 dark:to-white/5 pointer-events-none" />
       
@@ -71,7 +71,7 @@ const Initiative = () => {
           <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-600 mb-4">
             Our Initiatives
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 dark:text-gray-700 max-w-2xl mx-auto">
             Discover the amazing projects and platforms built by our community, driving innovation and creativity forward.
           </p>
         </motion.div>
@@ -120,7 +120,7 @@ const Initiative = () => {
             {initiativesData.map((item, index) => (
               <SwiperSlide key={item.id} className="max-w-[350px] sm:max-w-[400px]">
                 <Link to={`/initiatives/${item.id}`} className="block group">
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(249,_115,_22,_0.5)] bg-[#121212] border border-orange-500/20 group-hover:border-orange-500/50">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(249,_115,_22,_0.5)] bg-[#121212] dark:bg-white border border-orange-500/20 dark:border-orange-500/10 group-hover:border-orange-500/50">
                     <div className="relative h-48 md:h-56 overflow-hidden">
                       <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-40 group-hover:opacity-70 transition-opacity duration-300 mix-blend-overlay z-10`}></div>
                       <img 
@@ -130,10 +130,10 @@ const Initiative = () => {
                       />
                     </div>
                     <div className="p-6 relative z-20">
-                      <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-orange-600 transition-all">
+                      <h3 className="text-2xl font-bold mb-2 text-white dark:text-black group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-orange-600 transition-all">
                         {item.title}
                       </h3>
-                      <p className="text-gray-400 text-sm line-clamp-3">
+                      <p className="text-gray-400 dark:text-gray-700 text-sm line-clamp-3">
                         {item.description}
                       </p>
                       

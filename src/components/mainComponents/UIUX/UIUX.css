@@ -165,3 +165,50 @@ section { padding: 5rem 5%; position: relative; z-index: 10; }
     .section-title { font-size: 2rem; }
     .hero-description { font-size: 1rem; }
 }
+
+/* ---- Light Theme (Root .dark class) overrides ---- */
+.dark {
+    --bg-dark: #ffd4b3;
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --text-light: #000000;
+    --text-gray: #222222;
+    --glow: rgba(255, 107, 0, 0.35);
+}
+
+.dark .step-number {
+    color: #ffffff !important;
+}
+
+.dark .software-card {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 107, 0, 0.3) !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark .software-card:hover {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(255, 107, 0, 0.6) !important;
+    box-shadow: 
+        0 15px 35px rgba(255, 107, 0, 0.15),
+        0 0 30px rgba(255, 107, 0, 0.1),
+        inset 0 1px 2px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .design-feature,
+.dark .impact-card,
+.dark .impact-description,
+.dark .integration-highlight,
+.dark .integration-highlight li {
+    background: rgba(255, 255, 255, 0.65) !important;
+    border-color: rgba(255, 107, 0, 0.3) !important;
+    color: #222222 !important;
+}
+
+.dark .design-feature strong,
+.dark .impact-card h4,
+.dark .impact-description h3,
+.dark .integration-highlight h3 {
+    color: var(--primary) !important;
+}

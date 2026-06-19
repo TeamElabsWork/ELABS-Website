@@ -7,6 +7,21 @@ import RotatingText from './shared/RotatingText';
 const IoTEmbedded = () => {
   useDomainScrollAnimations();
 
+  const [isLightMode, setIsLightMode] = React.useState(() =>
+    document.documentElement.classList.contains('dark')
+  );
+
+  React.useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsLightMode(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+    return () => observer.disconnect();
+  }, []);
+
   const tools = [
     { icon: '🔵', name: 'Arduino', desc: 'The most beginner-friendly microcontroller platform — perfect for prototyping sensors, motors, and IoT devices.', link: 'https://www.arduino.cc' },
     { icon: '🍓', name: 'Raspberry Pi', desc: 'A full single-board Linux computer — powerful enough to run web servers, AI, and complex IoT applications.', link: 'https://www.raspberrypi.com' },
@@ -126,9 +141,9 @@ const IoTEmbedded = () => {
               maxWidth: '900px',
               borderRadius: '20px',
               overflow: 'hidden',
-              border: '2px solid rgba(255, 107, 0, 0.4)',
-              boxShadow: '0 8px 40px rgba(255, 107, 0, 0.25)',
-              background: '#111',
+              border: '2px solid var(--dp-border)',
+              boxShadow: '0 8px 40px var(--dp-glow-soft)',
+              background: 'var(--dp-bg-card)',
             }}>
               <iframe
                 title="Raspberry pi Compute Module 5 IO Board"
@@ -141,15 +156,15 @@ const IoTEmbedded = () => {
                 execution-while-out-of-viewport="true"
                 execution-while-not-rendered="true"
                 web-share="true"
-                src="https://sketchfab.com/models/e9eff70e6afb4498a50e72d6fa564bdb/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=1&ui_watermark=0"
+                src={`https://sketchfab.com/models/e9eff70e6afb4498a50e72d6fa564bdb/embed?autostart=1&ui_theme=${isLightMode ? 'light' : 'dark'}&ui_infos=0&ui_controls=1&ui_watermark=0`}
                 style={{
                   width: '100%',
                   height: '520px',
-                  background: '#000',
+                  background: isLightMode ? '#ffedde' : '#000',
                   display: 'block',
                 }}
               />
-              <p style={{ fontSize: 12, padding: '8px 16px', margin: 0, color: '#888', background: '#111' }}>
+              <p style={{ fontSize: 12, padding: '8px 16px', margin: 0, color: 'var(--dp-text-gray)', background: 'var(--dp-bg-card)', borderTop: '1px solid var(--dp-border)' }}>
                 <a href="https://sketchfab.com/3d-models/raspberry-pi-compute-module-5-io-board-e9eff70e6afb4498a50e72d6fa564bdb" target="_blank" rel="nofollow" style={{ color: '#ff6b00' }}>
                   Raspberry Pi CM5 IO Board
                 </a>{' '}by{' '}

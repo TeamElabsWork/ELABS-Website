@@ -84,13 +84,13 @@ const InitiativeDetail = () => {
   }, [id, navigate]);
 
   if (!data) return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#1a1a1a]">
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] dark:bg-[#ffd4b3] transition-colors duration-300">
       <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-20 overflow-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] dark:bg-[#ffd4b3] pt-24 pb-20 overflow-hidden">
       {/* Background elements */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className={`absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br ${data.color} opacity-20 blur-[120px] mix-blend-screen`}></div>
@@ -105,7 +105,7 @@ const InitiativeDetail = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           onClick={() => navigate('/#initiatives')}
-          className="flex items-center text-gray-400 hover:text-orange-500 transition-colors mb-8 group"
+          className="flex items-center text-gray-400 dark:text-gray-800 hover:text-orange-500 dark:hover:text-orange-600 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
           <span>Back to Initiatives</span>
@@ -122,10 +122,10 @@ const InitiativeDetail = () => {
             <h1 className={`text-5xl md:text-7xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r ${data.color}`}>
               {data.title}
             </h1>
-            <h2 className="text-2xl md:text-3xl font-medium text-gray-200 mb-6">
+            <h2 className="text-2xl md:text-3xl font-medium text-gray-200 dark:text-gray-800 mb-6">
               {data.tagline}
             </h2>
-            <p className="text-lg text-gray-400 leading-relaxed mb-8">
+            <p className="text-lg text-gray-400 dark:text-gray-900 leading-relaxed mb-8">
               {data.description}
             </p>
             
@@ -134,7 +134,7 @@ const InitiativeDetail = () => {
                 View Live Site
                 <ExternalLink className="w-4 h-4 ml-2" />
               </button>
-              <button className="px-8 py-3 rounded-full bg-gray-800 text-white border border-gray-700 font-semibold flex items-center hover:bg-gray-700 hover:border-orange-500/50 transition-colors duration-300">
+              <button className="px-8 py-3 rounded-full bg-gray-800 dark:bg-white text-white dark:text-gray-800 border border-gray-700 dark:border-orange-500/20 font-semibold flex items-center hover:bg-gray-700 dark:hover:bg-gray-100 hover:border-orange-500/50 transition-colors duration-300">
                 <Github className="w-5 h-5 mr-2" />
                 Source Code
               </button>
@@ -163,11 +163,11 @@ const InitiativeDetail = () => {
             transition={{ duration: 0.7 }}
             className="md:col-span-2 prose prose-lg dark:prose-invert max-w-none"
           >
-            <h3 className="text-3xl font-bold mb-6 text-white">About the Project</h3>
-            <p className="text-gray-300 leading-relaxed text-lg">
+            <h3 className="text-3xl font-bold mb-6 text-white dark:text-black">About the Project</h3>
+            <p className="text-gray-300 dark:text-gray-800 leading-relaxed text-lg">
               {data.longDescription}
             </p>
-            <p className="text-gray-300 leading-relaxed text-lg mt-4">
+            <p className="text-gray-300 dark:text-gray-800 leading-relaxed text-lg mt-4">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
           </motion.div>
@@ -179,8 +179,8 @@ const InitiativeDetail = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="space-y-8"
           >
-            <div className="bg-[#121212] rounded-2xl p-8 border border-orange-500/20 backdrop-blur-sm transition-colors hover:border-orange-500/50">
-              <h4 className="text-xl font-bold mb-6 text-white border-b border-gray-800 pb-4">Key Features</h4>
+            <div className="bg-[#121212] dark:bg-white/80 rounded-2xl p-8 border border-orange-500/20 backdrop-blur-sm transition-colors hover:border-orange-500/50 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+              <h4 className="text-xl font-bold mb-6 text-white dark:text-black border-b border-gray-800 dark:border-orange-500/10 pb-4">Key Features</h4>
               <ul className="space-y-4">
                 {data.features.map((feature, index) => (
                   <li key={index} className="flex items-start">
@@ -189,19 +189,19 @@ const InitiativeDetail = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-300">{feature}</span>
+                    <span className="text-gray-300 dark:text-gray-800">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="bg-[#121212] rounded-2xl p-8 border border-orange-500/20 backdrop-blur-sm flex flex-col items-center text-center transition-colors hover:border-orange-500/50">
+            <div className="bg-[#121212] dark:bg-white/80 rounded-2xl p-8 border border-orange-500/20 backdrop-blur-sm flex flex-col items-center text-center transition-colors hover:border-orange-500/50 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500/20 to-orange-700/20 mb-4 flex items-center justify-center border border-orange-500/30">
                 <span className="text-2xl font-bold text-orange-500">Team</span>
               </div>
-              <h4 className="text-lg font-bold text-white mb-1">ELABS Core Team</h4>
+              <h4 className="text-lg font-bold text-white dark:text-black mb-1">ELABS Core Team</h4>
               <p className="text-sm text-gray-400 mb-4">Developed with passion</p>
-              <button className="w-full py-2 rounded-lg border border-orange-500/30 text-gray-300 font-medium hover:bg-orange-500/10 hover:text-orange-400 transition-colors">
+              <button className="w-full py-2 rounded-lg border border-orange-500/30 text-gray-300 dark:text-gray-700 font-medium hover:bg-orange-500/10 dark:hover:bg-orange-500/20 hover:text-orange-400 transition-colors">
                 View Contributors
               </button>
             </div>

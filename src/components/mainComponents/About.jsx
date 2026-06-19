@@ -16,7 +16,7 @@ const About = () => {
       <div className="about-layout dark:bg-[radial-gradient(circle_at_center,#fff_1%,#ffedde_20%,#ffd4b3_40%)]">
         <figure className="about-video-wrapper">
           <div className="about-video-card">
-            <img src="/logo.png" alt="E LABS Logo" className="hero-video h-full w-full object-contain" />
+            <img src="/Images/Trasnparent12 1.png" alt="E LABS Logo" className="h-full w-full object-contain p-6" />
           </div>
         </figure>
 

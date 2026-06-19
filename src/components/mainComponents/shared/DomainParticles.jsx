@@ -100,7 +100,7 @@ const DomainParticles = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 0,
-        background: '#0d0d0d',
+        background: 'transparent',
         pointerEvents: 'none',
       }}
     />

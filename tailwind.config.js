@@ -19,7 +19,8 @@ export default {
           "radial-gradient(circle at 10% 20%, rgba(216, 241, 230, 0.46) 0.1%, rgba(233, 226, 226, 0.28) 90.1%);",
       },
       fontFamily: {
-        verna: "Varela Round",
+        verna: ["Plus Jakarta Sans", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
       },
       backgroundImage: {
         lightBG:
@@ -30,7 +31,7 @@ export default {
 
   // darkMode: "class",
   plugins: [
-    function ({ addUtilities }) {
+    ({ addUtilities }) => {
       const newUtilities = {
         ".hover-effect": {
           "@apply transform transition hover:scale-[1.01] hover:outline-textColor1 hover:outline hover:shadow-lg hover:shadow-textColor1":

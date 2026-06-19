@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { Button, Select, SelectItem } from "@heroui/react";
 import { supabase } from "../../lib/supabase-client";
+import { fallbackDomains, fallbackLeads, fallbackMembers } from "../../constants/fallbackData";
 
 function Members({ isHomePage = false }) {
   const [selectedDomain, setSelectedDomain] = useState("coordinator");
@@ -17,9 +18,13 @@ function Members({ isHomePage = false }) {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const { data: domainsData } = await supabase.from("domains").select("*");
-        const { data: membersData } = await supabase.from("members").select("*");
-        const { data: leadsData } = await supabase.from("leads").select("*");
+        const { data: domainsData, error: domainsError } = await supabase.from("domains").select("*");
+        const { data: membersData, error: membersError } = await supabase.from("members").select("*");
+        const { data: leadsData, error: leadsError } = await supabase.from("leads").select("*");
+
+        if (domainsError || membersError || leadsError || !domainsData || !membersData || !leadsData) {
+          throw new Error("Supabase returned empty data or errors");
+        }
 
         const domainMap = {};
         domainsData.forEach((d) => {
@@ -52,7 +57,33 @@ function Members({ isHomePage = false }) {
 
         setAllMembers([...leads, ...members]);
       } catch (err) {
-        setError(err.message);
+        console.warn("Supabase fetch failed in Members.jsx, using fallback mock data:", err.message);
+        
+        setDomains(fallbackDomains);
+
+        const members = fallbackMembers.map((m) => ({
+          _id: m.id,
+          name: m.name,
+          image: m.photo_url,
+          designation: "Member",
+          domain: m.domains,
+          github: m.github || "",
+          linkedin: m.linkedin || "",
+          instagram: m.instagram || "",
+        }));
+
+        const leads = fallbackLeads.map((l) => ({
+          _id: l.id,
+          name: l.name,
+          image: l.photo_url,
+          designation: l.designation,
+          domain: [l.domain],
+          github: "",
+          linkedin: "",
+          instagram: "",
+        }));
+
+        setAllMembers([...leads, ...members]);
       } finally {
         setLoading(false);
       }
@@ -140,7 +171,7 @@ function Members({ isHomePage = false }) {
 
   return (
     <div className="w-full flex flex-col items-center py-12">
-      <h1 className="text-5xl font-black mb-8">OUR TEAM MEMBERS</h1>
+      <h1 className="text-5xl font-black mb-8 text-white dark:text-black">OUR TEAM MEMBERS</h1>
 
       <Select
         defaultSelectedKeys={["coordinator"]}
