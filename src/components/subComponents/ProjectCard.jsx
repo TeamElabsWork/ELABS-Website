@@ -27,7 +27,7 @@ const ProjectCard = ({ project }) => {
               </h1>
             </div>
             <div className="flex items-center justify-start w-full">
-              <h1 className="text-textColor2 text-clip text-md font-normal leading-snug tracking-tight pt-2 w-full">
+              <h1 className="text-textColor2 dark:text-black text-clip text-md font-normal leading-snug tracking-tight pt-2 w-full">
                 {project.about}
               </h1>
             </div>

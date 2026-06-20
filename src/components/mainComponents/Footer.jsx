@@ -22,7 +22,7 @@ function Footer() {
           />
         </div>
       </div>
-      <div className="select-none flex gap-2 flex-col font-light items-center justify-center text-textColor2 dark:text-gray-200 tracking-wider text-sm md:text-base mb-6 mx-6 text-center">
+      <div className="select-none flex gap-2 flex-col font-light items-center justify-center text-textColor2 dark:text-black tracking-wider text-sm md:text-base mb-6 mx-6 text-center">
         <p>&copy;2026. All Rights are Reserved by E LABS</p>
         <p>Made with ❤️ Team Jaadu</p>
       </div>

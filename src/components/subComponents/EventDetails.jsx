@@ -9,9 +9,9 @@ function EventDetails({ eventInfo }) {
       <div className="w-full lg:w-2/5 flex justify-center">
         {/* <Link to={`/register/${eventInfo.id}`}> */}
         <EventCard
-          imgSource={eventInfo.image}
+          imgSource={eventInfo.image_url}
           eventId={eventInfo._id}
-          eventName={eventInfo.name || `Event ${eventInfo._id}`}
+          eventName={eventInfo.title || `Event ${eventInfo.id}`}
         />
         {/* </Link> */}
       </div>
@@ -19,7 +19,7 @@ function EventDetails({ eventInfo }) {
       <div className="w-full lg:w-3/5">
         <HPCard
           userClass="text-3xl text-center lg:text-3xl text-wrap lg:text-left hover:scale-105 transition-all ease-in-out duration-300 w-full mt-6 lg:mt-0"
-          heading={eventInfo.name || `Event ${eventInfo._id}`}
+          heading={eventInfo.title || `Event ${eventInfo.id}`}
           description={eventInfo.description}
         />
       </div>

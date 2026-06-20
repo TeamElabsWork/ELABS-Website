@@ -18,7 +18,7 @@ function Materials() {
 
   return (
     <div className="w-full h-full flex items-center justify-center pb-[460px] sm:pb-0">
-      <div className="rounded-[32px] m-[4%] bg-[#0B1215] dark:bg-[#ffd4b3] w-[80%] h-fit">
+      <div className="rounded-[32px] border-[3px] border-[#F7941D] m-[4%] bg-[#0B1215] dark:bg-[radial-gradient(circle_at_center,#fff_1%,#ffedde_15%,#ffd4b3_60%)] w-[80%] h-fit domain-glass-container">
         <div
           className="text-center font-bold leading-normal pb-[1%] pt-[3%] text-[180%] text-[#F7941D]"
           style={{
@@ -42,17 +42,11 @@ function Materials() {
             domain.resUrls.map((element, index) => (
               <a href={`/courses/${sec}/${index}`} key={element.name}>
                 <div
-                  className="flex flex-col items-center pt-0 pb-[21px] px-[20%] rounded-[15px] border-[4px] border-[#F7941D] bg-[#0B1215] dark:bg-[#ffd4b3]"
-                  style={{
-                    borderColor: "var(--Border-Gradient, #F7941D)",
-                    backgroundColor: "var(--Background-Color, #0B1215)",
-                  }}
-                  key={element.name}
+                  className="flex flex-col items-center pt-0 pb-[21px] px-[20%] rounded-[15px] border-[4px] border-[#F7941D] bg-[#0B1215] hover:scale-105 transition-all ease-in-out duration-300 cursor-pointer domain-glass-card"
                 >
                   <p
-                    className="text-center pt-[50%] pb-[10%] font-bold text-[120%] leading-normal text-[#FFFAFA]"
+                    className="text-center pt-[50%] pb-[10%] font-bold text-[120%] leading-normal text-[#FFFAFA] dark:text-black"
                     style={{
-                      color: "var(--Accent, #FFFAFA)",
                       fontFamily: "Gotham",
                     }}
                   >

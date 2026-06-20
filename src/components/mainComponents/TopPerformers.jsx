@@ -1,46 +1,74 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Particles from "./Particles";
 import FuzzyText from "./FuzzyText";
+import { supabase } from "../../lib/supabase-client";
 
 /* ── DATA ── */
-const kiitoMembers = [
-  { name: "Aryan Sharma",   image: "https://placehold.co/300x300/1a0d00/ff9a33?text=A" },
-  { name: "Priya Nair",     image: "https://placehold.co/300x300/0d1a00/ff9a33?text=P" },
-  { name: "Rohan Verma",    image: "https://placehold.co/300x300/001a1a/ff9a33?text=R" },
-  { name: "Sneha Gupta",    image: "https://placehold.co/300x300/1a001a/ff9a33?text=S" },
-  { name: "Kabir Das",      image: "https://placehold.co/300x300/1a1a00/ff9a33?text=K" },
-  { name: "Meera Pillai",   image: "https://placehold.co/300x300/001a0d/ff9a33?text=M" },
-];
+// const kiitoMembers = [
+//   { name: "Aryan Sharma", image: "https://placehold.co/300x300/1a0d00/ff9a33?text=A" },
+//   { name: "Priya Nair", image: "https://placehold.co/300x300/0d1a00/ff9a33?text=P" },
+//   { name: "Rohan Verma", image: "https://placehold.co/300x300/001a1a/ff9a33?text=R" },
+//   { name: "Sneha Gupta", image: "https://placehold.co/300x300/1a001a/ff9a33?text=S" },
+//   { name: "Kabir Das", image: "https://placehold.co/300x300/1a1a00/ff9a33?text=K" },
+//   { name: "Meera Pillai", image: "https://placehold.co/300x300/001a0d/ff9a33?text=M" },
+// ];
 
-const blazeMembers = [
-  { name: "Ankit Raj",  image: "https://placehold.co/300x300/0d0d1a/ff9a33?text=A" },
-  { name: "Riya Patel", image: "https://placehold.co/300x300/1a0000/ff9a33?text=R" },
-];
+// const blazeMembers = [
+//   { name: "Ankit Raj", image: "https://placehold.co/300x300/0d0d1a/ff9a33?text=A" },
+//   { name: "Riya Patel", image: "https://placehold.co/300x300/1a0000/ff9a33?text=R" },
+// ];
 
-const websiteMembers = [
-  { name: "Rishikesh Kumar",       image: "/Images/members/rishikesh.jpg" },
-  { name: "Satwik Chandra",        image: "/Images/members/satwik.jpg" },
-  { name: "Rajneesh Roy",          image: "/Images/members/rajneesh.jpg" },
-  { name: "Prajjwal Patel",        image: "/Images/members/prajjwal.jpg" },
-  { name: "Shubham Shah",          image: "/Images/members/shubhan.jpg" },
-  { name: "Vinayak",               image: "/Images/members/vinayak.jpeg" },
-  { name: "Asmit Sahu",            image: "/Images/members/asmit.jpg" },
-  { name: "Swoasti Bhattacharjee", image: "/Images/members/swoasti.jpg" },
-  { name: "Omm Tripathi",          image: "/Images/members/omm.jpg" },
-  { name: "Saroj Sen",             image: "/Images/members/saroj.jpg" },
-  { name: "Drishti Singh",         image: "/Images/members/drishti.png" },
-  { name: "Niraj Jha",             image: "/Images/members/niraj.jpeg" },
-  { name: "Soham Chatterjee",      image: "/Images/members/soham.jpg" },
-  { name: "Ayub Abdisalan",        image: "/Images/members/ayub.jpg" },
-  { name: "Hamza Patel",           image: "/Images/members/hamza.jpeg" },
-];
+// const websiteMembers = [
+//   { name: "Rishikesh Kumar", image: "/Images/members/rishikesh.jpg" },
+//   { name: "Satwik Chandra", image: "/Images/members/satwik.jpg" },
+//   { name: "Rajneesh Roy", image: "/Images/members/rajneesh.jpg" },
+//   { name: "Prajjwal Patel", image: "/Images/members/prajjwal.jpg" },
+//   { name: "Shubham Shah", image: "/Images/members/shubhan.jpg" },
+//   { name: "Vinayak", image: "/Images/members/vinayak.jpeg" },
+//   { name: "Asmit Sahu", image: "/Images/members/asmit.jpg" },
+//   { name: "Swoasti Bhattacharjee", image: "/Images/members/swoasti.jpg" },
+//   { name: "Omm Tripathi", image: "/Images/members/omm.jpg" },
+//   { name: "Saroj Sen", image: "/Images/members/saroj.jpg" },
+//   { name: "Drishti Singh", image: "/Images/members/drishti.png" },
+//   { name: "Niraj Jha", image: "/Images/members/niraj.jpeg" },
+//   { name: "Soham Chatterjee", image: "/Images/members/soham.jpg" },
+//   { name: "Ayub Abdisalan", image: "/Images/members/ayub.jpg" },
+//   { name: "Hamza Patel", image: "/Images/members/hamza.jpeg" },
+// ];
+
+function convertGoogleDriveUrl(url) {
+  if (!url) return "";
+
+  const match = url.match(/\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+
+  if (match?.[1]) {
+    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+  }
+
+  return url;
+}
+
+function normalizeUrl(url) {
+  if (!url) return "";
+
+  const trimmed = url.trim();
+
+  if (
+    trimmed.startsWith("http://") ||
+    trimmed.startsWith("https://")
+  ) {
+    return trimmed;
+  }
+
+  return `https://${trimmed}`;
+}
 
 const initiatives = [
   { name: "KIITO App", img: "https://placehold.co/120x120/1a1a1a/ff9a33?text=KIITO" },
   { name: "Blaze Bit", img: "https://placehold.co/120x120/1a1a1a/ff9a33?text=Blaze" },
-  { name: "Renora",    img: "https://placehold.co/120x120/1a1a1a/ff9a33?text=Renora" },
-  { name: "Artico",   img: "https://placehold.co/120x120/1a1a1a/ff9a33?text=Artico" },
+  { name: "Renora", img: "https://placehold.co/120x120/1a1a1a/ff9a33?text=Renora" },
+  { name: "Artico", img: "https://placehold.co/120x120/1a1a1a/ff9a33?text=Artico" },
 ];
 
 /* ── CARD ── */
@@ -59,7 +87,13 @@ function Card({ name, image, index, big, blaze }) {
     <div ref={ref} className={cls}>
       <div className="tp-card-glow" />
       <div className={photoWrapCls}>
-        <img src={image} alt={name} onError={(e) => (e.currentTarget.src = "/Images/members/default.jpg")} className="tp-card-img" loading="lazy" />
+        <img
+          src={image}
+          alt={name}
+          className="tp-card-img"
+          loading="lazy"
+          onError={(e) => e.currentTarget.src = `https://placehold.co/300x300/0d0d1a/ff9a33?text=${name.charAt(0).toUpperCase()}`}
+        />
         <div className="tp-card-shimmer" />
       </div>
       <p className={nameCls}>{name}</p>
@@ -89,6 +123,70 @@ function SectionBlock({ badge, title, desc, link }) {
 
 /* ── PAGE ── */
 export default function TopPerformers() {
+  const [topPerformers, setTopPerformers] = useState([]);
+
+  useEffect(() => {
+    fetchTopPerformers();
+  }, []);
+
+
+  const fetchTopPerformers = async () => {
+    try {
+      const { data: topPerformersData, error: topPerformersError } =
+        await supabase
+          .from("top_performers")
+          .select(`
+          id,
+          top_performers_projects (
+            id,
+            title,
+            tagline,
+            initiative_id
+          ),
+          members (
+            id,
+            name,
+            photo_url
+          ),
+          created_at
+        `);
+
+      if (topPerformersError) {
+        throw topPerformersError;
+      }
+
+
+      const groupedProjects = Object.values(
+        topPerformersData.reduce((acc, item) => {
+          const project = item.top_performers_projects;
+
+          if (!acc[project.id]) {
+            acc[project.id] = {
+              id: project.id,
+              title: project.title,
+              tagline: project.tagline,
+              initiative_id: project.initiative_id,
+              contributors: [],
+            };
+          }
+
+          if (item.members) {
+            acc[project.id].contributors.push(item.members);
+          }
+
+          return acc;
+        }, {})
+      );
+
+
+      setTopPerformers(groupedProjects);
+
+
+    } catch (error) {
+      console.error("Failed to fetch top performers:", error);
+    }
+  };
+
   return (
     <div className="tp-page">
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}><Particles /></div>
@@ -114,16 +212,46 @@ export default function TopPerformers() {
         </p>
 
         {/* ── KIITO APP ── */}
-        <SectionBlock badge="📦 Project" title="KIITO APP" desc="The team behind your ultimate campus companion." link="/initiatives/kiito-app" />
-        <div className="tp-grid-6">{kiitoMembers.map((m, i) => <Card key={i} index={i} {...m} big />)}</div>
+        {/* <SectionBlock badge="📦 Project" title="KIITO APP" desc="The team behind your ultimate campus companion." link="/initiatives/kiito-app" />
+        <div className="tp-grid-6">{kiitoMembers.map((m, i) => <Card key={i} index={i} {...m} big />)}</div> */}
 
         {/* ── BLAZE BIT ── */}
-        <SectionBlock badge="📦 Project" title="BLAZE BIT APP" desc="Smart study tools built by passionate engineers." link="/initiatives/blaze-bit" />
-        <div className="tp-grid-blaze">{blazeMembers.map((m, i) => <Card key={i} index={i} {...m} blaze />)}</div>
+        {/* <SectionBlock badge="📦 Project" title="BLAZE BIT APP" desc="Smart study tools built by passionate engineers." link="/initiatives/blaze-bit" />
+        <div className="tp-grid-blaze">{blazeMembers.map((m, i) => <Card key={i} index={i} {...m} blaze />)}</div> */}
 
         {/* ── ELABS WEBSITE ── */}
-        <SectionBlock badge="📦 Project" title="ELABS WEBSITE" desc="The crew that designed and developed the site you're on right now." />
-        <div className="tp-grid-7">{websiteMembers.map((m, i) => <Card key={i} index={i} {...m} />)}</div>
+        {/* <SectionBlock badge="📦 Project" title="ELABS WEBSITE" desc="The crew that designed and developed the site you're on right now." />
+        <div className="tp-grid-7">{websiteMembers.map((m, i) => <Card key={i} index={i} {...m} />)}</div> */}
+
+        {topPerformers.map((project) => (
+          <>
+            <SectionBlock
+              badge="📦 Project"
+              title={project.title}
+              desc={project.tagline}
+              link={
+                project.initiative_id
+                  ? `/initiatives/${project.initiative_id}`
+                  : null
+              }
+            />
+
+            <div
+              className={"tp-grid-7"}
+            >
+              {project.contributors.map((member, index) => (
+                <Card
+                  key={member.id}
+                  index={index}
+                  name={member.name}
+                  image={convertGoogleDriveUrl(member.photo_url)}
+                  big={project.contributors.length >= 5}
+                  blaze={project.contributors.length <= 2}
+                />
+              ))}
+            </div>
+          </>
+        ))}
 
         {/* ── LEAD / PROJECT MANAGER ── */}
         <div className="tp-divider" />
@@ -264,6 +392,44 @@ export default function TopPerformers() {
 .tp-init-circle img{width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(255,154,51,.5);object-fit:cover;transition:border-color .3s,box-shadow .3s}
 .tp-init-circle:hover img{border-color:#ff9a33;box-shadow:0 0 20px rgba(255,154,51,.5)}
 .tp-init-circle span{font-size:.65rem;font-weight:600;color:rgba(255,220,170,.85);letter-spacing:.04em;text-align:center}
+
+/* ---- Light Theme (Root .dark class) overrides ---- */
+.dark .tp-page {
+  background: #ffd4b3;
+  color: #000;
+}
+.dark .tp-main-sub, .dark .tp-section-desc {
+  color: rgba(0, 0, 0, 0.7);
+}
+.dark .tp-lead-card {
+  border-color: rgba(247, 148, 29, 0.4);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.dark .tp-lead-desc {
+  color: rgba(0, 0, 0, 0.8);
+}
+.dark .tp-lead-role {
+  color: #fff;
+}
+.dark .tp-init-circle span {
+  color: rgba(0, 0, 0, 0.8);
+}
+.dark .tp-sm-card, .dark .tp-big-card, .dark .tp-blaze-card {
+  border-color: rgba(247, 148, 29, 0.4);
+  background: linear-gradient(145deg, #fff, #ffeedd 60%, #ffd4b3);
+  box-shadow: 0 0 10px rgba(255, 130, 30, 0.08), 0 4px 16px rgba(0,0,0,0.15);
+}
+.dark .tp-sm-name, .dark .tp-big-name, .dark .tp-blaze-name {
+  background: linear-gradient(to top, rgba(255,255,255,0.95) 60%, transparent);
+  color: #000;
+}
+.dark .tp-sm-card:hover .tp-sm-name, .dark .tp-big-card:hover .tp-big-name, .dark .tp-blaze-card:hover .tp-blaze-name {
+  color: #e65c00;
+}
+.dark .tp-sm-photo-wrap, .dark .tp-big-photo-wrap, .dark .tp-blaze-photo-wrap {
+  background: #ffeedd;
+}
       `}</style>
     </div>
   );

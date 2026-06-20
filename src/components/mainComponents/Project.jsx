@@ -10,7 +10,7 @@ const Project = () => {
 
   if (project) {
     return (
-      <div className="container mx-auto px-5 dark">
+      <div className="container mx-auto px-5">
         <div className="mt-10 mb-20 rounded-xl border-textColor1 border-2 p-5 flex flex-col gap-6 lg:gap-10 overflow-x-hidden">
           <div className="flex lg:flex-row items-center justify-evenly gap-14 lg:gap-10 flex-col mt-6">
             <div className="w-full lg:w-[30%] flex items-center justify-center flex-col">
@@ -63,7 +63,7 @@ const Project = () => {
                 </h1>
               </div>
               <div className="flex items-center justify-start w-full">
-                <p className="tracking-tight w-full text-textColor2">
+                <p className="tracking-tight w-full text-textColor2 dark:text-black">
                   {project.description}
                 </p>
               </div>
@@ -93,7 +93,7 @@ const Project = () => {
     );
   }
   return (
-    <div className="container mx-auto px-5 dark">
+    <div className="container mx-auto px-5">
       <div className="flex w-full items-center justify-center">
         <h1 className="text-textColor1 text-5xl tracking-tight font-bold text-center w-full">
           Projects

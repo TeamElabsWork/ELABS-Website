@@ -17,7 +17,7 @@ const Home = React.lazy(() => import("./components/mainComponents/Home"));
 const About = React.lazy(() => import("./components/mainComponents/About.jsx"));
 const Events = React.lazy(() => import("./components/mainComponents/Events.jsx"));
 const MembersPage = React.lazy(() => import("./components/mainComponents/MembersPage.jsx"));
-const Achievements = React.lazy(() => import("./components/mainComponents/Achievements.jsx"));
+// const Achievements = React.lazy(() => import("./components/mainComponents/Achievements.jsx"));
 const Feedback = React.lazy(() => import("./components/mainComponents/Feedback.jsx"));
 const Domain = React.lazy(() => import("./components/mainComponents/Domain.jsx"));
 const StudyMt = React.lazy(() => import("./components/mainComponents/StudyMt.jsx"));
@@ -61,7 +61,7 @@ const route = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="events" element={<Events />} />
       <Route path="members" element={<MembersPage />}> </Route>
-      <Route path="achievements" element={<Achievements />}> </Route>
+      {/* <Route path="achievements" element={<Achievements />}> </Route> */}
       <Route path="feedback" element={<Feedback />} />
       <Route path="domain" element={<Domain />} />
       <Route path="leadhero" element={<LeadHero />}></Route>

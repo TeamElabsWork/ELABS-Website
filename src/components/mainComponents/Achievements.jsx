@@ -45,7 +45,7 @@ const Achievements = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-28 pb-20 overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] dark:bg-[#ffd4b3] pt-28 pb-20 overflow-x-hidden transition-colors duration-300">
       {/* Decorative Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[10%] right-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-orange-500/10 to-orange-700/10 blur-[100px]" />
@@ -62,7 +62,7 @@ const Achievements = () => {
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-orange-600">
             Hall of Fame
           </h1>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
+          <p className="text-xl text-gray-400 dark:text-gray-800 max-w-3xl mx-auto font-medium">
             Celebrating the remarkable individuals who have shaped our community, broken boundaries, and led with passion.
           </p>
         </motion.div>
@@ -77,16 +77,16 @@ const Achievements = () => {
               >
                 {/* Text Content */}
                 <motion.div 
-                  initial={{ opacity: 0, x: isEven ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="w-full lg:w-1/2"
+                   initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   viewport={{ once: true, margin: "-100px" }}
+                   transition={{ duration: 0.8, ease: "easeOut" }}
+                   className="w-full lg:w-1/2"
                 >
-                  <div className="bg-[#121212] p-8 md:p-12 rounded-3xl border border-orange-500/20 shadow-[0_10px_40px_rgba(249,115,22,0.15)] backdrop-blur-sm relative transition-all hover:border-orange-500/50">
+                  <div className="bg-[#121212] dark:bg-white/80 p-8 md:p-12 rounded-3xl border border-orange-500/20 dark:border-orange-500/10 shadow-[0_10px_40px_rgba(249,115,22,0.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.1)] backdrop-blur-sm relative transition-all hover:border-orange-500/50">
                     <div className={`absolute top-0 left-0 w-2 h-full rounded-l-3xl bg-gradient-to-b ${person.color}`} />
                     
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
+                    <h2 className="text-4xl md:text-5xl font-bold text-white dark:text-black mb-2">
                       {person.name}
                     </h2>
                     <h3 className={`text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${person.color}`}>
@@ -97,7 +97,7 @@ const Achievements = () => {
                       <svg className="absolute -top-4 -left-4 w-10 h-10 text-orange-500/20" fill="currentColor" viewBox="0 0 32 32">
                         <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14H8c0-1.1.9-2 2-2V8zm18 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8z" />
                       </svg>
-                      <p className="text-lg md:text-xl text-gray-300 leading-relaxed italic relative z-10">
+                      <p className="text-lg md:text-xl text-gray-300 dark:text-gray-850 leading-relaxed italic relative z-10">
                         {person.achievement}
                       </p>
                     </div>
