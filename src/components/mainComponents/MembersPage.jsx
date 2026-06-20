@@ -46,7 +46,8 @@ function MembersPage() {
         const { data: membersData, error: membersError } = await supabase
           .from("members")
           .select("*")
-          .eq("domain_id", domainItem.id);
+          .eq("domain_id", domainItem.id)
+          .eq("designation", "member");
 
         if (membersError) throw membersError;
 

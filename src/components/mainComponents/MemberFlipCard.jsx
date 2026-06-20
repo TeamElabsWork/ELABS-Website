@@ -61,9 +61,9 @@ export default function MemberFlipCard({ member }) {
   };
 
   const displayRole =
-    designation && designation !== "Member"
+    designation && designation !== "member"
       ? designation
-      : domain || "Member";
+      : domain || "member";
 
   const showFallback = !imageUrl || imageFailed;
 

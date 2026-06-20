@@ -55,9 +55,10 @@ export default function LeadHero({ domain }) {
 
         // Fetch leads for that domain
         const { data: leadsData, error: leadsError } = await supabase
-          .from("leads")
+          .from("members")
           .select("*")
-          .eq("domain_id", matchedDomain.id);
+          .eq("domain_id", matchedDomain.id)
+          .in("designation", ["lead", "asst_lead"]);
 
         if (leadsError || !leadsData) throw leadsError || new Error("Empty leads data");
 

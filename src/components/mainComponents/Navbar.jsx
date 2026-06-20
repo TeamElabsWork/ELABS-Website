@@ -25,7 +25,8 @@ const navLinks = [
   { label: "About", route: "/about", icon: FiInfo, sectionId: "aboutPage" },
   { label: "Domains", route: "/domain", icon: FiGrid, sectionId: "domain" },
   { label: "Events", route: "/events", icon: FiCalendar, sectionId: "eventPage" },
-  { label: "Achievements", route: "/achievements", icon: FiAward },
+  // { label: "Achievements", route: "/achievements", icon: FiAward },
+  { label: "Top Performers", route: "/top-performers", icon: FiAward },
   { label: "Members", route: "/members", icon: FiUsers },
   { label: "Gallery", route: "/gallery", icon: FiImage, sectionId: "galleryPage" },
 ];
