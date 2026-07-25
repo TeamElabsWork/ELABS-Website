@@ -2,6 +2,24 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase-client";
 import { fallbackLeads } from "../../constants/fallbackData";
 
+function convertGoogleDriveUrl(url) {
+  if (!url) return "";
+
+  url = url.trim();
+
+  let match = url.match(/\/file\/d\/([^/]+)/);
+  if (match?.[1]) {
+    return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+  }
+
+  match = url.match(/[?&]id=([^&]+)/);
+  if (match?.[1]) {
+    return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+  }
+
+  return url;
+}
+
 function LeaderCard({ name, photoUrl }) {
   if (!name) return null;
 
@@ -10,7 +28,7 @@ function LeaderCard({ name, photoUrl }) {
   const lastName = parts.slice(1).join(" ");
 
   const initialsUrl = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=ff6a00&color=fff&size=200`;
-  const finalPhotoUrl = photoUrl || initialsUrl;
+  const finalPhotoUrl = photoUrl ? convertGoogleDriveUrl(photoUrl) : initialsUrl;
 
   return (
     <div style={leaderCardStyle}>
