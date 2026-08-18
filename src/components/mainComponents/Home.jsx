@@ -9,6 +9,7 @@ import Gallery from "./Gallery";
 import Domain from "./Domain";
 import LeadHero from "./RunningText";
 import Initiative from "./Initiative";
+import WorkshopPopup from "./WorkshopPopup";
 
 function Home() {
   const [events, setEvents] = useState([]);
@@ -46,9 +47,7 @@ function Home() {
       <section id="galleryPage">
         <Gallery />
       </section>
-      {/* <section id="feedbackPage">
-        <Feedback />
-      </section> */}
+      <WorkshopPopup />
       <br />
     </div>
   );
