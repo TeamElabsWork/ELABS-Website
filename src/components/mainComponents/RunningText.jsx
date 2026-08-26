@@ -20,22 +20,54 @@ function convertGoogleDriveUrl(url) {
   return url;
 }
 
+// Shared by the photo and its initials placeholder so both occupy exactly the
+// same circle at every breakpoint.
+const avatarClasses =
+  "w-24 h-24 sm:w-36 sm:h-36 lg:w-[220px] lg:h-[220px] rounded-full object-cover border-[3px] sm:border-4 lg:border-[6px] border-[#ff6a00] mb-3 sm:mb-5 lg:mb-8 drop-shadow-[0_10px_30px_rgba(255,106,0,0.5)]";
+
 function LeaderCard({ name, photoUrl }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
   if (!name) return null;
 
   const parts = name.trim().split(" ");
   const firstName = parts[0];
   const lastName = parts.slice(1).join(" ");
 
-  const initialsUrl = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=ff6a00&color=fff&size=200`;
-  const finalPhotoUrl = photoUrl ? convertGoogleDriveUrl(photoUrl) : initialsUrl;
+  // A Drive link that is not shared publicly redirects to a Google login page,
+  // which the browser blocks — without this the <img> renders its alt text
+  // inside the circle. Fall back to initials, same as MemberFlipCard does.
+  const showInitials = !photoUrl || imageFailed;
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 
   return (
-    <div style={leaderCardStyle}>
-      <img src={finalPhotoUrl} alt={name} style={leaderImageStyle} />
-      <div style={nameTagStyle}>
-        <span style={nameStyle}>{firstName}</span>
-        <span style={nameStyle}>{lastName}</span>
+    <div className="flex flex-col items-center text-center w-[8.5rem] sm:w-40 lg:w-auto">
+      {showInitials ? (
+        <div
+          aria-label={name}
+          className={`${avatarClasses} flex items-center justify-center bg-[#ff6a00] text-white font-bold text-2xl sm:text-4xl lg:text-6xl select-none`}
+        >
+          {initials}
+        </div>
+      ) : (
+        <img
+          src={convertGoogleDriveUrl(photoUrl)}
+          alt={name}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setImageFailed(true)}
+          className={avatarClasses}
+        />
+      )}
+      <div className="max-w-full px-3 py-1.5 sm:px-5 sm:py-2 lg:px-9 lg:py-3 rounded-full bg-gradient-to-r from-[#ff6a00] to-[#ff9500] shadow-[0_6px_15px_rgba(0,0,0,0.3)]">
+        <span className="block font-bold text-[0.7rem] sm:text-sm lg:text-base uppercase text-black tracking-[0.05em] leading-tight break-words">
+          {firstName}
+        </span>
+        {lastName && (
+          <span className="block font-bold text-[0.7rem] sm:text-sm lg:text-base uppercase text-black tracking-[0.05em] leading-tight break-words">
+            {lastName}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -118,18 +150,23 @@ export default function LeadHero({ domain }) {
   if (leadsList.length === 0 && asstLeadsList.length === 0) return null;
 
   return (
-    <section style={wrapperStyle}>
-      <div style={containerStyle}>
+    <section
+      className="w-full flex items-center justify-center bg-transparent text-white select-none py-8 sm:py-14 lg:py-20"
+      style={{ fontFamily: "'Montserrat', sans-serif" }}
+    >
+      <div className="w-full max-w-[1100px] mx-auto flex flex-col gap-10 sm:gap-14 lg:gap-[60px] px-2 sm:px-6 lg:px-8">
         {/* DOMAIN LEADS */}
         {leadsList.length > 0 && (
-          <div style={groupStyle}>
-            <div style={labelContainerStyle}>
-              <div style={labelLineStyle} />
-              <span style={labelTextStyle}>DOMAIN LEADS</span>
-              <div style={labelLineStyle} />
+          <div className="w-full flex flex-col items-center">
+            <div className="flex items-center justify-center w-full gap-3 sm:gap-6 mb-6 sm:mb-10 lg:mb-12">
+              <div className="flex-1 h-px" style={labelLineStyle} />
+              <span className="text-[0.65rem] sm:text-[0.8rem] font-extrabold uppercase tracking-[0.25em] sm:tracking-[0.4em] text-[#ff6a00] whitespace-nowrap">
+                DOMAIN LEADS
+              </span>
+              <div className="flex-1 h-px" style={labelLineStyle} />
             </div>
 
-            <div style={cardsCentererStyle}>
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-8 sm:gap-x-10 sm:gap-y-10 lg:gap-20 w-full">
               {leadsList.map((lead) => (
                 <LeaderCard
                   key={lead.id}
@@ -143,14 +180,16 @@ export default function LeadHero({ domain }) {
 
         {/* ASSISTANT LEADS */}
         {asstLeadsList.length > 0 && (
-          <div style={groupStyle}>
-            <div style={labelContainerStyle}>
-              <div style={labelLineStyle} />
-              <span style={labelTextStyle}>ASSISTANT LEADS</span>
-              <div style={labelLineStyle} />
+          <div className="w-full flex flex-col items-center">
+            <div className="flex items-center justify-center w-full gap-3 sm:gap-6 mb-6 sm:mb-10 lg:mb-12">
+              <div className="flex-1 h-px" style={labelLineStyle} />
+              <span className="text-[0.65rem] sm:text-[0.8rem] font-extrabold uppercase tracking-[0.25em] sm:tracking-[0.4em] text-[#ff6a00] whitespace-nowrap">
+                ASSISTANT LEADS
+              </span>
+              <div className="flex-1 h-px" style={labelLineStyle} />
             </div>
 
-            <div style={cardsCentererStyle}>
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-8 sm:gap-x-10 sm:gap-y-10 lg:gap-20 w-full">
               {asstLeadsList.map((lead) => (
                 <LeaderCard
                   key={lead.id}
@@ -167,98 +206,9 @@ export default function LeadHero({ domain }) {
 }
 
 // Styles
-
-const wrapperStyle = {
-  width: "100%",
-  background: "transparent",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: "#fff",
-  fontFamily: "'Montserrat', sans-serif",
-  userSelect: "none",
-  padding: "80px 0",
-};
-
-const containerStyle = {
-  width: "100%",
-  maxWidth: "1100px",
-  margin: "0 auto",
-  display: "flex",
-  flexDirection: "column",
-  gap: "60px",
-  padding: "0 2rem",
-};
-
-const groupStyle = {
-  width: "100%",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
-
-const labelContainerStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "100%",
-  gap: "1.5rem",
-  marginBottom: "3rem",
-};
-
+// The only rule kept inline: a three-stop gradient with no plain Tailwind
+// equivalent. Every other value is now a responsive utility class.
 const labelLineStyle = {
-  flex: 1,
-  height: "1px",
   background:
     "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,106,0,0.6) 50%, rgba(255,255,255,0) 100%)",
-};
-
-const labelTextStyle = {
-  fontSize: "0.85rem",
-  fontWeight: 800,
-  textTransform: "uppercase",
-  letterSpacing: "0.4em",
-  color: "#ff6a00",
-  whiteSpace: "nowrap",
-};
-
-const cardsCentererStyle = {
-  display: "flex",
-  justifyContent: "center",
-  flexWrap: "wrap",
-  gap: "5rem",
-  width: "100%",
-};
-
-const leaderCardStyle = {
-  textAlign: "center",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
-
-const leaderImageStyle = {
-  width: "220px",
-  height: "220px",
-  borderRadius: "50%",
-  objectFit: "cover",
-  border: "6px solid #ff6a00",
-  filter: "drop-shadow(0 10px 30px rgba(255,106,0,0.5))",
-  marginBottom: "2rem",
-};
-
-const nameTagStyle = {
-  padding: "0.8rem 2.2rem",
-  background: "linear-gradient(90deg, #ff6a00, #ff9500)",
-  borderRadius: "999px",
-  boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
-};
-
-const nameStyle = {
-  display: "block",
-  fontWeight: 700,
-  fontSize: "1rem",
-  textTransform: "uppercase",
-  color: "#000",
-  letterSpacing: "0.05em",
 };
