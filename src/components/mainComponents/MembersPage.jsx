@@ -220,23 +220,23 @@ function MembersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black dark:bg-[#ffd4b3] py-24 transition-colors duration-300">
+    <div className="min-h-screen bg-black dark:bg-[#ffd4b3] py-12 sm:py-24 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <h1 className="text-4xl md:text-6xl font-black text-center mb-16 uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 drop-shadow-[0_2px_10px_rgba(249,115,22,0.3)]">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-center mb-10 sm:mb-16 uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 drop-shadow-[0_2px_10px_rgba(249,115,22,0.3)]">
           OUR TEAM MEMBERS
         </h1>
 
         {grouped.map(({ domain, members }) => (
-          <section key={domain} className="mb-24 animate-fade-in-up">
-            <h2 className="text-2xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 mb-10 border-l-4 border-orange-500 pl-4 uppercase tracking-widest">
+          <section key={domain} className="mb-16 sm:mb-24 animate-fade-in-up">
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 mb-6 sm:mb-10 border-l-4 border-orange-500 pl-3 sm:pl-4 uppercase tracking-wider sm:tracking-widest break-words">
               {domain}
             </h2>
 
-            <div className="max-w-6xl mx-auto mb-16">
+            <div className="max-w-6xl mx-auto mb-8 sm:mb-16">
               <LeadHero domain={domain} />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 justify-items-center max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 md:gap-10 justify-items-center max-w-6xl mx-auto">
               {members.map((member) => (
                 <MemberFlipCard
                   key={member.id}

@@ -35,9 +35,17 @@ function normalizeUrl(url) {
   return `https://${trimmed}`;
 }
 
+// Touch devices never fire hover, so the back of the card is unreachable there.
+// Detect once and fall back to tap/keyboard toggling instead.
+function detectHover() {
+  if (typeof window === "undefined" || !window.matchMedia) return true;
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
 export default function MemberFlipCard({ member }) {
   const [flipped, setFlipped] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
+  const [canHover] = useState(detectHover);
 
   if (!member) return null;
 
@@ -67,12 +75,31 @@ export default function MemberFlipCard({ member }) {
 
   const showFallback = !imageUrl || imageFailed;
 
+  const toggleFlip = () => setFlipped((prev) => !prev);
+
+  const hoverHandlers = canHover
+    ? {
+        onMouseEnter: () => setFlipped(true),
+        onMouseLeave: () => setFlipped(false),
+      }
+    : {};
+
   return (
     <div
-      className="relative w-64 h-96 cursor-pointer group"
+      className="relative w-full max-w-[16rem] h-64 sm:h-96 cursor-pointer group"
       style={{ perspective: "1200px" }}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
+      role="button"
+      tabIndex={0}
+      aria-label={`${name} — ${displayRole}. Show details`}
+      aria-pressed={flipped}
+      onClick={toggleFlip}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleFlip();
+        }
+      }}
+      {...hoverHandlers}
     >
       <div
         className="w-full h-full transition-transform duration-700"
@@ -83,7 +110,7 @@ export default function MemberFlipCard({ member }) {
       >
         {/* FRONT */}
         <div
-          className="absolute inset-0 rounded-xl p-6 flex flex-col items-center justify-center gap-4"
+          className="absolute inset-0 rounded-xl p-3 sm:p-6 flex flex-col items-center justify-center gap-2 sm:gap-4"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
@@ -97,23 +124,24 @@ export default function MemberFlipCard({ member }) {
             <img
               src={imageUrl}
               alt={name}
-              className="w-32 h-32 rounded-full border-4 border-black object-cover"
+              className="w-20 h-20 sm:w-32 sm:h-32 rounded-full border-2 sm:border-4 border-black object-cover"
               referrerPolicy="no-referrer"
+              loading="lazy"
               onError={() => setImageFailed(true)}
             />
           )}
 
           {showFallback && (
-            <div className="w-32 h-32 rounded-full border-4 border-black bg-orange-300/30 flex items-center justify-center text-3xl font-bold text-white">
+            <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full border-2 sm:border-4 border-black bg-orange-300/30 flex items-center justify-center text-xl sm:text-3xl font-bold text-white">
               {name?.charAt(0)?.toUpperCase()}
             </div>
           )}
 
-          <div className="flex flex-col items-center mt-2">
-            <h3 className="text-white font-bold text-center text-xl leading-tight">
+          <div className="flex flex-col items-center mt-1 sm:mt-2 w-full">
+            <h3 className="text-white font-bold text-center text-sm sm:text-xl leading-tight break-words w-full">
               {name}
             </h3>
-            <p className="text-orange-300 tracking-widest text-sm text-center mt-2">
+            <p className="text-orange-300 tracking-wide sm:tracking-widest text-[11px] sm:text-sm text-center mt-1 sm:mt-2 break-words w-full">
               {displayRole}
             </p>
           </div>
@@ -121,7 +149,7 @@ export default function MemberFlipCard({ member }) {
 
         {/* BACK */}
         <div
-          className="absolute inset-0 rounded-xl p-6 flex flex-col items-center justify-between"
+          className="absolute inset-0 rounded-xl p-3 sm:p-6 flex flex-col items-center justify-between"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
@@ -136,46 +164,64 @@ export default function MemberFlipCard({ member }) {
             style={{ scrollbarWidth: "none" }}
           >
             {intro ? (
-              <p className="text-orange-100/90 text-xs italic leading-relaxed text-center m-auto py-2">
-                "{intro}"
+              <p className="text-orange-100/90 text-[11px] sm:text-xs italic leading-relaxed text-center m-auto py-2">
+                &quot;{intro}&quot;
               </p>
             ) : (
-              <p className="text-orange-300/40 text-xs italic text-center m-auto">
+              <p className="text-orange-300/40 text-[11px] sm:text-xs italic text-center m-auto">
                 No introduction provided.
               </p>
             )}
           </div>
 
-          <div className="w-16 h-px bg-orange-500/40 my-4 shrink-0"></div>
+          <div className="w-12 sm:w-16 h-px bg-orange-500/40 my-2 sm:my-4 shrink-0"></div>
 
-          <div className="flex flex-col items-center gap-4 shrink-0 pb-2">
-            <h3 className="text-orange-300 font-bold text-sm tracking-widest uppercase">
+          <div className="flex flex-col items-center gap-2 sm:gap-4 shrink-0 pb-1 sm:pb-2">
+            <h3 className="text-orange-300 font-bold text-[11px] sm:text-sm tracking-widest uppercase">
               Connect
             </h3>
 
-            <div className="flex gap-5">
+            <div className="flex gap-3 sm:gap-5">
               {socials.instagram && (
-                <a href={socials.instagram} target="_blank" rel="noopener noreferrer">
-                  <FaInstagram size={24} className="text-white hover:text-orange-400" />
+                <a
+                  href={socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${name} on Instagram`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaInstagram className="w-5 h-5 sm:w-6 sm:h-6 text-white hover:text-orange-400" />
                 </a>
               )}
 
               {socials.linkedin && (
-                <a href={socials.linkedin} target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin size={24} className="text-white hover:text-orange-400" />
+                <a
+                  href={socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${name} on LinkedIn`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaLinkedin className="w-5 h-5 sm:w-6 sm:h-6 text-white hover:text-orange-400" />
                 </a>
               )}
 
               {socials.github && (
-                <a href={socials.github} target="_blank" rel="noopener noreferrer">
-                  <FaGithub size={24} className="text-white hover:text-orange-400" />
+                <a
+                  href={socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${name} on GitHub`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaGithub className="w-5 h-5 sm:w-6 sm:h-6 text-white hover:text-orange-400" />
                 </a>
               )}
 
               {!socials.instagram &&
                 !socials.linkedin &&
                 !socials.github && (
-                  <span className="text-orange-300/50 text-xs">
+                  <span className="text-orange-300/50 text-[11px] sm:text-xs">
                     No socials available
                   </span>
                 )}
