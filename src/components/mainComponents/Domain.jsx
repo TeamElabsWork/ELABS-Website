@@ -8,12 +8,12 @@ function Domain() {
 
   return (
     <div className="w-full font-verna mt-12 h-full flex flex-col items-center justify-center">
-      <h1 className="text-4xl text-balance md:text-5xl font-black mb-8 text-textColor1 mx-3 text-center">
+      <h1 className="text-3xl sm:text-4xl text-balance md:text-5xl font-black mb-6 sm:mb-8 text-textColor1 mx-3 text-center">
         Introducing Our Domains
       </h1>
 
       <div className="rounded-[32px] border-[3px] border-[#F7941D] mt-[4%] bg-[#0B1215] dark:bg-[radial-gradient(circle_at_center,#fff_1%,#ffedde_15%,#ffd4b3_60%)] w-[90%] h-full flex flex-col items-center justify-evenly mb-20 domain-glass-container">
-        <div className="flex gap-7 px-4 items-center flex-wrap w-full justify-center py-10">
+        <div className="flex gap-4 sm:gap-7 px-3 sm:px-4 items-center flex-wrap w-full justify-center py-6 sm:py-10">
           {stdmt.map((element) => (
             <div
               onClick={() => {
@@ -96,19 +96,19 @@ function Domain() {
                 }
 
               }}
-              className="flex hover:scale-105 transition-all ease-in-out duration-300 w-full sm:w-[45%] md:w-[30%] max-w-[350px] cursor-pointer"
+              className="flex hover:scale-105 transition-all ease-in-out duration-300 w-[calc(50%-0.5rem)] sm:w-[45%] md:w-[30%] max-w-[350px] cursor-pointer"
               key={element.domain}
             >
-              <div className="flex font-verna flex-col items-center justify-center rounded-[15px] border-[4px] border-[#F7941D] bg-[#0B1215] dark:bg-[#ffccaa]/60 h-52 gap-2.5 w-full p-2 domain-glass-card">
+              <div className="flex font-verna flex-col items-center justify-center rounded-[15px] border-2 sm:border-[4px] border-[#F7941D] bg-[#0B1215] dark:bg-[#ffccaa]/60 h-40 sm:h-52 gap-1.5 sm:gap-2.5 w-full p-2 domain-glass-card">
                 <div className="flex items-end justify-center w-full">
                   <img
                     src={element.img}
                     alt={element.domain}
-                    className="w-[25%]"
+                    className="w-[30%] sm:w-[25%]"
                   />
                 </div>
                 <div className="flex items-start justify-center w-full">
-                  <p className="text-center h-[50%] font-bold text-[22px] w-full text-wrap leading-normal text-[#FFFAFA] dark:text-black">
+                  <p className="text-center h-[50%] font-bold text-[15px] sm:text-[22px] w-full text-wrap leading-snug sm:leading-normal text-[#FFFAFA] dark:text-black">
                     {element.domain}
                   </p>
                 </div>
