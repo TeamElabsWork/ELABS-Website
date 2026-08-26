@@ -20,24 +20,45 @@ function convertGoogleDriveUrl(url) {
   return url;
 }
 
+// Shared by the photo and its initials placeholder so both occupy exactly the
+// same circle at every breakpoint.
+const avatarClasses =
+  "w-24 h-24 sm:w-36 sm:h-36 lg:w-[220px] lg:h-[220px] rounded-full object-cover border-[3px] sm:border-4 lg:border-[6px] border-[#ff6a00] mb-3 sm:mb-5 lg:mb-8 drop-shadow-[0_10px_30px_rgba(255,106,0,0.5)]";
+
 function LeaderCard({ name, photoUrl }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
   if (!name) return null;
 
   const parts = name.trim().split(" ");
   const firstName = parts[0];
   const lastName = parts.slice(1).join(" ");
 
-  const initialsUrl = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=ff6a00&color=fff&size=200`;
-  const finalPhotoUrl = photoUrl ? convertGoogleDriveUrl(photoUrl) : initialsUrl;
+  // A Drive link that is not shared publicly redirects to a Google login page,
+  // which the browser blocks — without this the <img> renders its alt text
+  // inside the circle. Fall back to initials, same as MemberFlipCard does.
+  const showInitials = !photoUrl || imageFailed;
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 
   return (
     <div className="flex flex-col items-center text-center w-[8.5rem] sm:w-40 lg:w-auto">
-      <img
-        src={finalPhotoUrl}
-        alt={name}
-        loading="lazy"
-        className="w-24 h-24 sm:w-36 sm:h-36 lg:w-[220px] lg:h-[220px] rounded-full object-cover border-[3px] sm:border-4 lg:border-[6px] border-[#ff6a00] mb-3 sm:mb-5 lg:mb-8 drop-shadow-[0_10px_30px_rgba(255,106,0,0.5)]"
-      />
+      {showInitials ? (
+        <div
+          aria-label={name}
+          className={`${avatarClasses} flex items-center justify-center bg-[#ff6a00] text-white font-bold text-2xl sm:text-4xl lg:text-6xl select-none`}
+        >
+          {initials}
+        </div>
+      ) : (
+        <img
+          src={convertGoogleDriveUrl(photoUrl)}
+          alt={name}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setImageFailed(true)}
+          className={avatarClasses}
+        />
+      )}
       <div className="max-w-full px-3 py-1.5 sm:px-5 sm:py-2 lg:px-9 lg:py-3 rounded-full bg-gradient-to-r from-[#ff6a00] to-[#ff9500] shadow-[0_6px_15px_rgba(0,0,0,0.3)]">
         <span className="block font-bold text-[0.7rem] sm:text-sm lg:text-base uppercase text-black tracking-[0.05em] leading-tight break-words">
           {firstName}
