@@ -1,5 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 
+// Neutral dark tile shown when a photo cannot be fetched, so a failed image
+// degrades into the carousel's own palette instead of a broken-image icon.
+const PHOTO_FALLBACK =
+  "data:image/svg+xml;charset=utf-8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">
+       <rect width="1200" height="800" fill="#160d06"/>
+       <circle cx="600" cy="360" r="70" fill="none" stroke="#F7941D" stroke-width="8" opacity="0.5"/>
+       <path d="M560 400l35-35 30 30 35-40 45 55z" fill="#F7941D" opacity="0.5"/>
+     </svg>`
+  );
+
 const PhotoGallery = ({ events, photos = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -108,6 +120,23 @@ const PhotoGallery = ({ events, photos = [] }) => {
                   src={imgUrl}
                   alt={imgEventName || `photo-${index}`}
                   className="w-full h-full object-cover"
+                  /*
+                   * These are Google Drive links, and Google rate-limits them
+                   * per referrer. A localhost referrer gets a 429 back, so the
+                   * gallery renders broken images during local development
+                   * while the same URLs return 200 with no referrer. Sending
+                   * none also avoids leaking page URLs to Google. MemberFlipCard
+                   * has always done this, which is why member photos load and
+                   * these did not.
+                   */
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    // Swap once to an inline placeholder; a data URI cannot
+                    // itself fail, so this cannot loop.
+                    if (e.currentTarget.dataset.fallback) return;
+                    e.currentTarget.dataset.fallback = "1";
+                    e.currentTarget.src = PHOTO_FALLBACK;
+                  }}
                 />
                 
                 {/* Dark Overlay */}
