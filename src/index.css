@@ -97,23 +97,26 @@ body::before {
       transparent 60%),
     radial-gradient(70% 60% at 50% 80%, rgba(8, 5, 15, 0.5) 0%, transparent 65%);
   filter: blur(60px) saturate(120%);
-  animation: pageAurora 22s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-@keyframes pageAurora {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(-2%, -1%, 0) scale(1.05) rotate(1deg);
-  }
-
-  100% {
-    transform: translate3d(2%, 1%, 0) scale(1.03) rotate(-1deg);
-  }
-}
+/*
+ * body::before is a fixed, full-viewport layer with filter: blur(60px), and it
+ * sits behind every backdrop-filter element in the app (the domain page alone
+ * nests 17 of them). It used to run a 22s "pageAurora" drift.
+ *
+ * Any animation on this layer — transform or even opacity — changes the
+ * backdrop that those glass panels sample, forcing all of them to re-blur on
+ * every single frame. That held the whole app to ~17-30fps even while idle,
+ * which is what made scrolling feel broken.
+ *
+ * Measured on the production build, leaving every backdrop-filter untouched:
+ *   animated aurora -> 17.9fps idle on /domain
+ *   static aurora   -> 60fps
+ * The gradient is blurred to 60px at 45% opacity, so the drift was barely
+ * perceptible; the frame rate is worth far more. Do not re-add an animation
+ * here without re-measuring /domain, which is the worst case.
+ */
 
 @layer utilities {
   .text-white-50 {
@@ -687,7 +690,13 @@ body::before {
   mask-composite: exclude;
   opacity: 0;
   transition: opacity 0.4s ease;
-  animation: borderGlow 3s ease infinite;
+  /*
+   * borderGlow animates background-position, which repaints rather than
+   * compositing, and it does so through a mask-composite layer. Running it
+   * here meant all 16 cards repainted continuously while sitting at
+   * opacity: 0 — invisible work that held /domain to ~20fps on desktop.
+   * The animation now starts on hover, which is the only time it can be seen.
+   */
 }
 
 @keyframes borderGlow {
@@ -704,6 +713,7 @@ body::before {
 
 .domain-glass-card:hover::after {
   opacity: 1;
+  animation: borderGlow 3s ease infinite;
 }
 
 .domain-glass-card:hover {
@@ -843,7 +853,8 @@ body::before {
   mask-composite: exclude;
   opacity: 0;
   transition: opacity 0.4s ease;
-  animation: eventGlow 4s ease-in-out infinite;
+  /* Same as .domain-glass-card::after: this repainted continuously while
+     invisible. Moved onto :hover, the only state where it renders. */
 }
 
 @keyframes eventGlow {
@@ -860,6 +871,7 @@ body::before {
 
 .event-glass-card:hover::after {
   opacity: 1;
+  animation: eventGlow 4s ease-in-out infinite;
 }
 
 
