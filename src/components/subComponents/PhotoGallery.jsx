@@ -76,10 +76,10 @@ const PhotoGallery = ({ events, photos = [] }) => {
   const imageUrl = currentImage.url?.replace?.("/upload", "/upload/c_auto,g_auto,f_auto") || currentImage.url;
 
   return (
-    <div className="px-4 max-w-7xl mx-auto">
+    <div className="px-2 sm:px-4 max-w-7xl mx-auto">
       {/* Main Carousel Container */}
       <div 
-        className="relative h-[600px] rounded-3xl overflow-hidden group"
+        className="relative h-[240px] sm:h-[380px] md:h-[500px] lg:h-[600px] rounded-2xl sm:rounded-3xl overflow-hidden group"
         onMouseEnter={() => {
           setIsPaused(true);
           stopSlider();
@@ -121,22 +121,22 @@ const PhotoGallery = ({ events, photos = [] }) => {
         </div>
 
         {/* Event Details - Visible on Hover */}
-        <div className="absolute bottom-0 left-0 right-0 p-12 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-          <div className="transform translate-y-20 group-hover:translate-y-0 transition-transform duration-700">
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
+          <div className="transform translate-y-0 md:translate-y-20 md:group-hover:translate-y-0 transition-transform duration-700">
             
 
             {/* Event Name */}
-            <h2 className="text-5xl md:text-6xl font-black text-white mb-4 drop-shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200">
+            <h2 className="text-xl sm:text-3xl md:text-6xl font-black text-white mb-1 sm:mb-4 drop-shadow-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:delay-200">
               {eventName}
             </h2>
 
             {/* Event Details */}
-            <p className="text-xl text-gray-300 mb-6 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-300">
+            <p className="text-xs sm:text-base md:text-xl text-gray-300 mb-0 md:mb-6 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:delay-300">
               Photo {currentIndex + 1} of {galleryImages.length}
             </p>
 
             {/* View More Button */}
-            <button className="flex items-center gap-3 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-black font-bold rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 delay-400 hover:scale-105">
+            <button className="hidden md:flex items-center gap-3 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-black font-bold rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 delay-400 hover:scale-105">
               <span>View Full Gallery</span>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -148,7 +148,7 @@ const PhotoGallery = ({ events, photos = [] }) => {
         {/* Navigation Arrows */}
         <button
           onClick={goToPrevious}
-          className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-black/50 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 backdrop-blur-sm"
+          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 bg-black/50 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:scale-110"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -157,7 +157,7 @@ const PhotoGallery = ({ events, photos = [] }) => {
 
         <button
           onClick={goToNext}
-          className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-black/50 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 backdrop-blur-sm"
+          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 bg-black/50 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:scale-110"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -176,15 +176,15 @@ const PhotoGallery = ({ events, photos = [] }) => {
       </div>
 
       {/* Thumbnail Indicators */}
-      <div className="flex justify-center gap-3 mt-8">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-4 sm:mt-8">
         {galleryImages.map((img, index) => (
           <button
             key={img._id || index}
             onClick={() => goToSlide(index)}
             className={`transition-all duration-300 rounded-full ${
               index === currentIndex
-                ? 'w-12 h-3 bg-orange-500'
-                : 'w-3 h-3 bg-gray-600 hover:bg-gray-400'
+                ? 'w-8 sm:w-12 h-2.5 sm:h-3 bg-orange-500'
+                : 'w-2.5 sm:w-3 h-2.5 sm:h-3 bg-gray-600 hover:bg-gray-400'
             }`}
           />
         ))}
